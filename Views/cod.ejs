@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Success</title>
+  <link rel="stylesheet" href="/assets/css/success.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="success-card">
+      <img src="https://cdn.dribbble.com/users/1751799/screenshots/5512482/media/1cbd3594bb5e8d90924a105d4aae924c.gif" alt="Success Icon" class="success-icon">
+      <h1 class="success-title">
+        <span class="animated-text">Your Order</span>
+        <span class="animated-text">Has Been</span>
+        <span class="animated-text">Successfully Placed!</span>
+      </h1>
+      <p class="success-message">Thank you for your purchase.</p>
+    </div>
+    <div class="action-buttons">
+      <a href="/orders" class="btn btn-primary">View Orders</a>
+      <a href="/home" class="btn btn-secondary">Continue Shopping</a>
+    </div>
+  </div>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    .container {
+      /* display: flex; */
+      /* justify-content: center; */
+      width: 50%;
+      margin-left: 20rem;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
+
+    .success-card {
+      text-align: center;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .success-icon {
+      width: 250px;
+      height: 200px;
+    }
+
+    .success-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 30px;
+      margin: 20px 0;
+      color: #333;
+
+    }
+
+    .animated-text {
+      display: inline-block;
+      /* opacity: 0; */
+      /* transform: translateY(20px); */
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .animated-text:nth-child(1) {
+      transition-delay: 0.2s;
+    }
+
+    .animated-text:nth-child(2) {
+      transition-delay: 0.4s;
+    }
+
+    .animated-text:nth-child(3) {
+      transition-delay: 0.6s;
+    }
+
+    .success-message {
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 30px;
+      opacity: 0;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .btn {
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      padding: 10px 20px;
+      margin: 0 10px;
+      text-decoration: none;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0062cc;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+    }
+
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</body>
+
+</html>

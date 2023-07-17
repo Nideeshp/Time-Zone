@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Coupons</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Edit Coupons</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="/admin/postEditCoupon/<%=coupondata._id%>" class="form-horizontal form-material"
+                    method="post" id="addCoupon">
+                    <div class="alert alert-danger" id="alertpasswordUser1" role="alert" style="display: none;">
+                        All fields Required
+                    </div>
+                    <div class="alert alert-success" id="alertpasswordUser" role="alert" style="display: none;">
+                        Saved
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-8">Coupon Code</label>
+                        <div class="col-md-8">
+                            <input type="text" name="code" class="form-control form-control-line"
+                                value="<%=coupondata.code%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Expire Date</label>
+                        <div class="col-md-8">
+                            <input type="date" id="date-input" name="expirationDate"
+                                class="form-control form-control-line" name="example-email"
+                                value="<%=coupondata.expirationDate.toISOString().slice(0,10)%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Maximum Discount</label>
+                        <div class="col-md-8">
+                            <input type="number" name="maxDiscount" class="form-control form-control-line"
+                                name="example-email" id="example-email" value="<%=coupondata.maxDiscount%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-8">Minimum Purchase Amount</label>
+                        <div class="col-md-8">
+                            <input type="Number" name="MinPurchaceAmount" class="form-control form-control-line"
+                                name="example-email" id="example-email" value="<%=coupondata.MinPurchaceAmount%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12">Percentage Off</label>
+                        <div class="col-md-8">
+                            <input type="Number" max="100" name="percentageOff" class="form-control form-control-line"
+                                name="example-email" id="example-email" value="<%=coupondata.percentageOff%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1

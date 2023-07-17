@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/assets/css/profile.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+
+</head>
+
+<body>
+
+  <section style="background-color: #ffffff;">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+            <ol class="breadcrumb mb-0">
+
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <% if(typeof userdetails!=='undefined' ){ %>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="card mb-4">
+              <div class="card-body text-center">
+                <img
+                  src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
+                  alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                <h5 class="my-3">
+                  <%= userdetails.name %>
+                </h5>
+                <p class="text-muted mb-1">Time Zone</p>
+                <p class="text-muted mb-4">We are all in a Time Zone</p>
+                <div class="d-flex justify-content-center mb-2">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Full Name</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                      <%= userdetails.name %>
+                    </p>
+                  </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                      <%= userdetails.email %>
+                    </p>
+                  </div>
+                </div>
+                <hr>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">username</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">
+                    <%= userdetails.name %>
+                  </p>
+                </div>
+              </div>
+              <hr>
+              <!-- <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Wallet Balance</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">
+                          ₹ <%= userdetails.wallet %>
+                        </p>
+                      </div>
+                    </div> -->
+            </div>
+          </div>
+
+
+
+
+
+
+
+          <button style="background-color: skyblue; border-radius: 10px;"><a href="/address"
+              style="color: black;">Address</a></button>
+
+
+
+          <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <!-- Add your address form or content here -->
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save Address</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <button type="button" style="background-color: skyblue; border-radius: 10px; "><a style=" color:black" ;
+              href="/orders" class="orders-button">Orders</a></button>
+          <a href="/forgetpassword">
+            <button type="button" style="background-color: skyblue; border-radius: 10px; color: black;"
+              data-toggle="modal" data-target="#exampleModalCenter" class="forgot-password-button">
+              Forget Password
+            </button>
+          </a>
+
+          <button style="background-color: skyblue; border-radius: 10px;"><a href="/logout" style="color: black;">Log
+              out</a></button>
+
+        </div>
+    </div>
+    <%} %>
+      </div>
+      </div>
+
+  </section>
+
+  <section>
+    <!-- profile.ejs -->
+
+    <!-- Existing profile page content -->
+    <!-- profile.ejs -->
+
+    <!-- Existing profile page content -->
+
+    <!-- Style for addresses -->
+    <style>
+      .addresses-container {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .addresses-container h2 {
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .address-item {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .address-item p {
+        margin: 0;
+        line-height: 1.5;
+
+      }
+
+      a {
+        text-decoration: none;
+      }
+    </style>
+
+    <!-- Display addresses -->
+    <section class="addresses-container">
+      <h2>Addresses</h2>
+      <br>
+      <ul>
+        <% userdetails.address.forEach(function(address) { %>
+          <li class="address-item">
+            <p><strong>House Name:</strong>
+              <%= address.houseName %>
+            </p>
+            <p><strong>Street:</strong>
+              <%= address.street %>
+            </p>
+            <p><strong>District:</strong>
+              <%= address.district %>
+            </p>
+            <p><strong>State:</strong>
+              <%= address.state %>
+            </p>
+            <p><strong>Pincode:</strong>
+              <%= address.pincode %>
+            </p>
+            <p><strong>Country:</strong>
+              <%= address.country %>
+            </p>
+            <p><strong>Phone:</strong>
+              <%= address.phone %>
+            </p>
+          </li>
+          <% }); %>
+      </ul>
+    </section>
+
+
+
+
+    <!-- modal edit user details -->
+
+    <section>
+      <div class="modal fade" id="userEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content" style="background-color: rgb(226, 227, 225)">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Edit User Details</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="alertpasswordUser1" class="alert alert-success" role="alert" style="display: none;">
+
+              </div>
+              <form action="" method="post" id="userDetailsEdit">
+
+                <div class="col-lg-12">
+                  <div class="card mb-4">
+                    <div class="card-body" style="background-color:  rgb(226, 227, 225);">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Name</p>
+
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="text" name="name" class="form-control form-control-line"
+                            value="<%=userdetails.name %>">
+                        </div>
+                      </div>
+                      <input type="hidden" name="userId" value="userdetails._id">
+                      <hr>
+
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <p class="mb-0">Email</p>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="text" name="email" class="form-control form-control-line"
+                            value="<%=userdetails.email %>">
+                        </div>
+                      </div>
+                      <hr>
+
+                      <hr>
+                    </div>
+                  </div>
+                  <div id="alertpasswordUser" class="alert alert-danger" role="alert" style="display: none;">
+
+                  </div>
+
+                  <button type="submit" onclick="submit()">Save Action</button>
+                </div>
+            </div>
+            </form>
+
+
+          </div>
+          <div class="modal-footer">
+
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script>
+      // Wait for the document to be ready
+      $(document).ready(function () {
+        // Function to open the modal when the "Address" button is clicked
+        $('#exampleModalScrollable').on('show.bs.modal', function () {
+          // Code to execute when the modal is shown
+          // You can add any additional logic or functionality here
+        });
+
+        // Function to handle form submission inside the modal
+        $('#exampleModalScrollable').on('submit', 'form', function (e) {
+          e.preventDefault();
+          // Code to handle form submission
+          // You can send the form data to the server, perform validation, or any other necessary action
+        });
+
+        // Function to handle the "Save Address" button click inside the modal
+        $('#exampleModalScrollable').on('click', '.btn-primary', function () {
+          // Code to execute when the "Save Address" button is clicked
+          // You can retrieve the form data, perform validation, and save the address
+          // You can also close the modal if needed using: $('#exampleModalScrollable').modal('hide');
+        });
+      });
+    </script>
+
+
+
+
+
+
+    <script>
+      $('#password').submit(function (e) {
+        e.preventDefault();
+
+        var formData = $(this).serialize();
+
+
+
+        $.ajax({
+          url: '/changePassword', // replace with the URL of your server-side script
+          type: 'POST', // use POST method
+          data: formData,
+          success: (response) => {
+
+            // handle the response from the server
+            console.log("yes")
+            console.log(response);
+            if (response.done) {
+              $('#alertpassword1').attr({ style: "display: block" }).html("Success")
+              setTimeout(() => {
+                $('#alertpassword1').hide()
+              }, 3000)
+              location.href = '/user'
+            } else if (response.failedToMatch) {
+              $('#alertpassword').attr({ style: "display: block" }).html("Failed to match New Password")
+              setTimeout(() => {
+                $('#alertpassword').hide()
+              }, 3000)
+            } else if (response.incorrect) {
+              $('#alertpassword').attr({ style: "display: block" }).html("Incorrect Password")
+              setTimeout(() => {
+                $('#alertpassword').hide()
+              }, 3000)
+            } else if (response.required) {
+              $('#alertpassword').attr({ style: "display: block" }).html("All fields Are Required")
+              setTimeout(() => {
+                $('#alertpassword').hide()
+              }, 3000)
+            }
+          },
+
+        });
+      });
+
+
+      $('#userDetailsEdit').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+          url: '/editedProfile', // replace with the URL of your server-side script
+          type: 'POST', // use POST method
+          data: formData,
+          success: (response) => {
+            // handle the response from the server
+            console.log("yes")
+            console.log(response);
+            if (response.done) {
+              $('#alertpasswordUser1').attr({ style: "display: block" }).html("Saved")
+              setTimeout(() => {
+                $('#alertpasswordUser1').hide()
+              }, 3000)
+              location.href = '/user'
+            } else if (response.NullField) {
+              $('#alertpasswordUser').attr({ style: "display: block" }).html("All fields Are Required")
+              setTimeout(() => {
+                $('#alertpasswordUser').hide()
+              }, 3000)
+            }
+          },
+
+        });
+      });
+    </script>
+
+
+
+
+
+
+
+</body>
+
+</html>

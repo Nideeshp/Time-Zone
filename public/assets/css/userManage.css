@@ -1,0 +1,58 @@
+
+  /* Add your custom CSS styles here */
+
+  /* Container styles */
+  .container-fluid {
+    margin-top: 20px;
+  }
+
+  /* Table styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  /* Button styles */
+  button {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+  }
+
+  /* Additional styles */
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .card {
+    margin-top: 20px;
+  }
+
+  .card-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+

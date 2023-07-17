@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Watch shop | eCommers</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+  <!-- CSS here -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="assets/css/flaticon.css">
+  <link rel="stylesheet" href="assets/css/slicknav.css">
+  <link rel="stylesheet" href="assets/css/animate.min.css">
+  <link rel="stylesheet" href="assets/css/magnific-popup.css">
+  <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="assets/css/themify-icons.css">
+  <link rel="stylesheet" href="assets/css/slick.css">
+  <link rel="stylesheet" href="assets/css/nice-select.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+  <header>
+    <!-- Header Start -->
+    <div class="header-area">
+      <div class="main-header header-sticky">
+        <div class="container-fluid">
+          <div class="menu-wrapper">
+            <!-- Logo -->
+            <div class="logo">
+              <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+            </div>
+            <!-- Main-menu -->
+            <div class="main-menu d-none d-lg-block">
+              <nav>
+                <ul id="navigation">
+                  <li><a href="/home">Home</a></li>
+                  <li><a href="/shop">shop</a></li>
+                  <li><a href="/wishlist">Wishlist</a></li>
+                  <li><a href="/cart">Cart</a></li>
+                </ul>
+              </nav>
+            </div>
+            <!-- Header Right -->
+            <div class="header-right">
+              <ul>
+                <li>
+                  <div class="nav-search search-switch">
+                    <span class="flaticon-search"></span>
+                  </div>
+                </li>
+                <li> <a href="/user"><span class="flaticon-user"></span></a></li>
+                <li><a href="/cart"><span class="flaticon-shopping-cart"></span></a> </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Mobile Menu -->
+          <div class="col-12">
+            <div class="mobile_menu d-block d-lg-none"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Header End -->
+  </header>
+  <main>
+
+
+    <!-- Hero Area Start -->
+    <div class="slider-area">
+      <div class="single-slider slider-height2 d-flex align-items-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="hero-cap text-center">
+                <h2>Checkout</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="checkout_area section_padding">
+      <form class="checkout-form" action="/placeOrder" method="post" novalidate="novalidate" id="checkout-form">
+        <div class="container">
+          <div class="billing_details">
+            <div class="row">
+              <div class="col-lg-8">
+                <h3>Billing Details</h3>
+                <div class="row contact_form">
+                  <div class="col-md-12 form-group p_star select-address">
+                    <label for="address-select">Select Address:</label>
+                    <div class="address-box-wrapper">
+                      <% userdetails.address.forEach(function(address) { %>
+                        <div class="address-box">
+                          <input type="radio" id="<%= address._id %>" name="address"
+                            value="<%= address._id %> <%= address.houseName %> <%= address.street %> <%= address.district %> <%= address.state %> <%= address.pincode %> <%= address.country %> <%= address.phone %>"
+                            required />
+                          <label for="<%= address._id %>">
+                            <span class="address-line">
+                              <%= address.houseName %>
+                            </span>
+                            <span class="address-line">
+                              <%= address.street %>
+                            </span>
+                            <span class="address-line">
+                              <%= address.district %>
+                            </span>
+                            <span class="address-line">
+                              <%= address.state %>
+                            </span>
+                            <span class="address-line">
+                              <%= address.pincode %>
+                            </span>
+                            <span class="address-line">
+                              <%= address.country %>
+                            </span>
+                            <span class="address-line">
+                              <%= address.phone %>
+                            </span>
+                          </label>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <a class="btn_3" href="/address">Add New Address</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="order_box">
+                  <h2>Your Orders</h2>
+                  <ul class="list">
+                    <% products.forEach((product)=> { %>
+                      <li>
+                        <a href="#">Name<span class="last">
+                            <%= product.name %>
+                          </span></a>
+                      </li>
+                      <li>
+                        <a href="#">Brand<span class="last">
+                            <%= product.brand %>
+                          </span></a>
+                      </li>
+                      <li>
+                        <a href="#">Price<span class="last">
+                            <%= product.price %>
+                          </span></a>
+                      </li>
+                      <br>
+                      <br>
+                      <% }); %>
+                  </ul>
+                  <ul class="list list_2">
+
+                    <br>
+                    <li>
+                      <a href="#">Total<span>
+                          <%= total %>
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+
+                  <br>
+                  <br>
+                  <% if (typeof coupondetails !=='undefined' ) { %>
+                    <div class="coupon_box">
+                      <h2>Apply Coupon</h2>
+                    </div>
+                    <% } %>
+                      <br>
+                      <div class="d-flex justify-content-between">
+                        <form id="formCoupon" class="row">
+                          <div class="col-sm-4 b ">
+                            <div class="form-group">
+                              <input type="text" form="formCoupon" class="form-control form-control-sm" name="code"
+                                id="NAMEcode" aria-describedby="helpId"
+                                style="border: 1px solid black; width:fit-content;" placeholder="Coupon code">
+                              <button class="btn btn-sm  my-2"
+                                onclick="applyCoupon('<%= total %>', $('#NAMEcode').val())" form="formCoupon">Redeem
+                                Now</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+
+
+                      <div id="selected-items"></div>
+
+                      <br>
+                      <div class="payment_item">
+                        <div class="radion_btn">
+                          <input type="radio" id="f-option5" name="payment_method" value="COD" required />
+                          <label for="f-option5">Cash On Delivery</label>
+                          <div class="check"></div>
+                        </div>
+                      </div>
+                      <div class="payment_item active">
+                        <div class="radion_btn">
+                          <input type="text" value="" hidden>
+                          <input type="radio" id="f-option6" name="payment_method" value="ONLINE" required />
+                          <label for="f-option6">Online Payment</label>
+                          <img src="img/product/single-product/card.jpg" alt="" />
+                          <div class="check"></div>
+                        </div>
+                      </div>
+                </div>
+                <br>
+                <br>
+                <div class="text-center">
+                  <button type="submit" class="btn_3" id="c-button" style="width: 300px;" <% if (products.length===0) {
+                    %>disabled<% } %>>Proceed to Payment</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!--================End Checkout Area =================-->
+  </main>
+  <footer>
+    <!-- Footer Start-->
+    <div class="footer-area footer-padding">
+      <div class="container">
+        <div class="row d-flex justify-content-between">
+          <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+            <div class="single-footer-caption mb-50">
+              <div class="single-footer-caption mb-30">
+                <!-- logo -->
+                <div class="footer-logo">
+                  <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
+                </div>
+                <div class="footer-tittle">
+                  <div class="footer-pera">
+                    <p>Asorem ipsum adipolor sdit amet, consectetur adipisicing elitcf sed do eiusmod tem.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+            <div class="single-footer-caption mb-50">
+              <div class="footer-tittle">
+                <h4>Quick Links</h4>
+                <ul>
+                  <li><a href="#">About</a></li>
+                  <li><a href="#"> Offers & Discounts</a></li>
+                  <li><a href="#"> Get Coupon</a></li>
+                  <li><a href="#"> Contact Us</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+            <div class="single-footer-caption mb-50">
+              <div class="footer-tittle">
+                <h4>New Products</h4>
+                <ul>
+                  <li><a href="#">Woman Cloth</a></li>
+                  <li><a href="#">Fashion Accessories</a></li>
+                  <li><a href="#"> Man Accessories</a></li>
+                  <li><a href="#"> Rubber made Toys</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
+            <div class="single-footer-caption mb-50">
+              <div class="footer-tittle">
+                <h4>Support</h4>
+                <ul>
+                  <li><a href="#">Frequently Asked Questions</a></li>
+                  <li><a href="#">Terms & Conditions</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Report a Payment Issue</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Footer bottom -->
+        <div class="row align-items-center">
+          <div class="col-xl-7 col-lg-8 col-md-7">
+            <div class="footer-copy-right">
+              <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
+                with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                  target="_blank">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </p>
+            </div>
+          </div>
+          <div class="col-xl-5 col-lg-4 col-md-5">
+            <div class="footer-copy-right f-right">
+              <!-- social -->
+              <div class="footer-social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.facebook.com/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-behance"></i></a>
+                <a href="#"><i class="fas fa-globe"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer End-->
+  </footer>
+  <!--? Search model Begin -->
+  <div class="search-model-box">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+      <div class="search-close-btn">+</div>
+      <form class="search-model-form">
+        <input type="text" id="search-input" placeholder="Searching key.....">
+      </form>
+    </div>
+  </div>
+  <!-- Search model end -->
+
+  <!-- JS here -->
+
+
+  <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+  <!-- Jquery, Popper, Bootstrap -->
+  <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+  <script src="./assets/js/popper.min.js"></script>
+  <script src="./assets/js/bootstrap.min.js"></script>
+  <!-- Jquery Mobile Menu -->
+  <script src="./assets/js/jquery.slicknav.min.js"></script>
+
+  <!-- Jquery Slick , Owl-Carousel Plugins -->
+  <script src="./assets/js/owl.carousel.min.js"></script>
+  <script src="./assets/js/slick.min.js"></script>
+
+  <!-- One Page, Animated-HeadLin -->
+  <script src="./assets/js/wow.min.js"></script>
+  <script src="./assets/js/animated.headline.js"></script>
+  <script src="./assets/js/jquery.magnific-popup.js"></script>
+
+  <!-- Scroll up, nice-select, sticky -->
+  <script src="./assets/js/jquery.scrollUp.min.js"></script>
+  <script src="./assets/js/jquery.nice-select.min.js"></script>
+  <script src="./assets/js/jquery.sticky.js"></script>
+
+  <!-- contact js -->
+  <script src="./assets/js/contact.js"></script>
+  <script src="./assets/js/jquery.form.js"></script>
+  <script src="./assets/js/jquery.validate.min.js"></script>
+  <script src="./assets/js/mail-script.js"></script>
+  <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+
+  <!-- Jquery Plugins, main Jquery -->
+  <script src="./assets/js/plugins.js"></script>
+  <script src="./assets/js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="/user/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+  <script>
+  $("#checkout-form").submit((e) => {
+    e.preventDefault();
+
+    $.ajax({
+      url: '/placeOrder',
+      method: 'post',
+      data: $('#checkout-form').serialize(),
+      success: (response) => {
+        if (response.cError) {
+          alert(response.cError);
+          location.reload();
+        } else if (response.error) {
+          alert(response.error);
+        } else {
+          if (response.online) {
+            console.log('entering online payment');
+            razorpayPayment(response.order);
+          } else {
+            setTimeout(() => {
+              location.reload();
+            }, 100);
+            window.location.href = '/success';
+          }
+        }
+      }
+    });
+  });
+
+  function razorpayPayment(order) {
+    var options = {
+      "key": "rzp_test_RyOx6mcc2yYfHD", // Enter the Key ID generated from the Dashboard
+      "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "TIME ZONE", // Your business name
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": order.orderId, // The order ID obtained in the response of Step 1
+      "handler": function (response) {
+        alert('Payment successful');
+        verifyPayment(response, order);
+      },
+      "prefill": {
+        "name": "Gaurav Kumar", // Your customer's name
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+  }
+
+  function verifyPayment(payment, order) {
+    const amount = document.getElementById("total").innerHTML;
+
+    $.ajax({
+      url: "/verifyPayment-online",
+      method: "post",
+      data: {
+        payment,
+        amount,
+        order
+      },
+      success: (response) => {
+        if (response.success) {
+          location.href = '/order-placed';
+        } else {
+          alert('Payment failed');
+          location.href = '/home';
+        }
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function applyCoupon(subtotal, code) {
+      $.ajax({
+        type: "POST",
+        url: "/applyCoupon",
+        data: { subtotal: subtotal, code: code },
+        dataType: "json",
+        success: function (response) {
+          if (response.amountokay) {
+            console.log(response, "this rep");
+            const total = response.value;
+            const discount = response.discountValue
+            console.log(total, discount);
+            $("#selected-items").html(`
+          <h3>Selected Coupon</h3>
+          <p>Coupon Code: ${code}</p>
+          <p>Discount: ${discount}</p>
+          <p>Total: ${total}</p>
+        `);
+          } else if (response.amountnokay) {
+            $("#selected-items").html(`
+          <p>Minimum Purchase Amount not met for the coupon.</p>
+        `);
+          } else if (response.datefailed) {
+            $("#selected-items").html(`
+          <p>Coupon has expired.</p>
+        `);
+          } else if (response.invalid) {
+            $("#selected-items").html(`
+          <p>Invalid coupon code.</p>
+        `);
+          } else if (response.used) {
+            $("#selected-items").html(`
+          <p>Coupon code has already been used.</p>
+        `);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error(error);
+        },
+      });
+    }
+
+
+
+  </script>
+
+
+
+</body>
+
+
+
+</html>

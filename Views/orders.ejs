@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Order History</title>
+    <!-- Add your CSS stylesheets and other dependencies here -->
+    <style>
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .card {
+        background-color: #f7f7f7;
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        background-color: #eaeaea;
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-weight: bold;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
+
+      .order-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .order-info p {
+        margin: 0;
+      }
+
+      .order-info .total-price {
+        font-weight: bold;
+      }
+
+      .order-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .cancel-btn {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+
+      .cancel-btn:hover {
+        background-color: #c82333;
+      }
+
+      .no-orders {
+        text-align: center;
+        margin-top: 20px;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Orders</h1>
+
+      <% if (orders.length > 0) { %>
+        <% orders.forEach(function(order) { %>
+          <div class="card">
+            <div class="card-header">
+              Order Details
+            </div>
+            <div class="card-body">
+              <div class="order-info">
+                <p>Date: <%= order.date.toDateString() %></p>
+                <p>Status: <%= order.status %></p>
+              </div>
+              <div class="order-info">
+                <p>Payment Method: <%= order.paymentMethod %></p>
+                <p class="total-price">Total Price: <%= order.productDt.totalprice %></p>
+              </div>
+              <div class="order-info">
+                <p>Products quantity:</p>
+                <% order.productDt.items.forEach(function(item) { %>
+                  <p><%= item.name %> (No: <%= item.qty %>)</p>
+                <% }); %>
+              </div>
+              <div class="order-actions">
+                <% if (order.status === 'placed') { %>
+                  <form action="/cancelOrder" method="POST">
+                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                    <button type="submit" class="cancel-btn">Cancel Order</button>
+                  </form>
+                <% } else { %>
+                  <button class="cancel-btn" disabled>Order Cancelled</button>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p class="no-orders">No orders found.</p>
+      <% } %>
+    </div>
+    <!-- Add your JavaScript scripts and other dependencies here -->
+  </body>
+</html>

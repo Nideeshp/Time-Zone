@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Order History</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .card {
+        background-color: #fff;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        background-color: #eaeaea;
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-weight: bold;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
+
+      .order-details {
+        padding: 20px;
+      }
+
+      .order-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .order-info p {
+        margin: 0;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .order-info .total-price {
+        font-weight: bold;
+      }
+
+      .user-details {
+        margin-top: 20px;
+      }
+
+      .user-info p {
+        margin: 0;
+        font-size: 14px;
+        color: #888;
+      }
+
+      .product-list {
+        margin-top: 20px;
+      }
+
+      .product {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .product p {
+        margin: 0;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .no-orders {
+        text-align: center;
+        margin-top: 20px;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Orders</h1>
+
+      <% if (orders.length > 0) { %>
+        <% orders.forEach(function (order) { %>
+          <div class="card">
+            <div class="card-header">
+              Order Details
+            </div>
+            <div class="order-details">
+              <div class="order-info">
+                <p>Date: <%= order.date.toDateString() %></p>
+                <p>Status: <%= order.status %></p>
+              </div>
+              <div class="order-info">
+                <p>Payment Method: <%= order.paymentMethod %></p>
+                <p class="total-price">Total Price: <%= order.productDt.totalprice %></p>
+              </div>
+              <div class="user-details">
+                <div class="user-info">
+                  <p>User Name: <%= order.userId.name %></p>
+                  <p>User Address: <%= order.address %></p>
+                </div>
+              </div>
+              <div class="product-list">
+                <% order.productDt.items.forEach(function (item) { %>
+                  <div class="product">
+                    <p>Product: <%= item.productId.name %></p>
+                    <p>Quantity: <%= item.qty %></p>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p class="no-orders">No orders found.</p>
+      <% } %>
+    </div>
+  </body>
+</html>

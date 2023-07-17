@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Address Page</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        /* styles.css */
+
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+input[type="text"],
+input[type="tel"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 480px) {
+  form {
+    width: 100%;
+  }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Address Details</h1>
+    <form action="/addAddress" method="post">
+        <label for="houseName">House Name:</label>
+        <input type="text" id="houseName" name="houseName" required>
+        
+        <label for="street">Street:</label>
+        <input type="text" id="street"  name="street" required>
+        
+        <label for="district">District:</label>
+        <input type="text" id="district" name="district" required>
+        
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required>
+        
+        <label for="pincode">Pincode:</label>
+        <input type="text" id="pincode" name="pincode" required>
+        
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required>
+        
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

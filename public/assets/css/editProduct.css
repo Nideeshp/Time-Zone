@@ -1,0 +1,80 @@
+/* editProduct.css */
+
+/* Add some spacing and alignment */
+body {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Style form labels */
+.form-group label {
+  font-weight: bold;
+}
+
+/* Style form inputs */
+.form-control {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Style select dropdown */
+select.form-control {
+  height: auto;
+}
+
+/* Style submit button */
+.btn-success {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+/* Add some spacing to the images */
+.card-body .row > div {
+  margin-right: 10px;
+}
+
+/* Add some margin-bottom to the error message */
+h5 {
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: rgb(224, 86, 86);
+}

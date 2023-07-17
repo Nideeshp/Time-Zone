@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/viewproducts.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/zoomsl.js"></script>
+</head>
+
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="images p-3">
+                                <div class="text-center p-4">
+                                    <img src="/uploads/<%= product.image[0] %>" class="img-fluid main_img"
+                                        alt="Product Image" width="250" height="60px" />
+                                </div>
+                                <div class="thumbnail text-center">
+                                    <% product.image.slice(1).forEach(function(image) { %>
+                                    <img onclick="change_image(this)" src="/uploads/<%= image %>" width="70"
+                                        height="60px">
+                                    <% }) %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="product p-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa fa-long-arrow-left"></i>
+                                        <span class="ml-1"><a href="/home">Back</a></span>
+                                    </div>
+                                    <i class="fa fa-shopping-cart text-muted"></i>
+                                </div>
+                                <div class="mt-4 mb-3">
+                                    <span class="text-uppercase text-muted brand">TimeZone</span>
+                                    <h5 class="text-uppercase">
+                                        <%= product.name %>
+                                    </h5>
+                                    <div class="price d-flex flex-row align-items-center">
+                                        <span class="act-price">
+                                            <h5>
+                                                Price: INR <%= product.price %>
+                                            </h5>
+                                        </span>
+                                    </div>
+                                </div>
+                                <h5 class="about">
+                                    <%= product.description %>
+                                </h5>
+                                <h5 class="description">
+                                    Category: <%= product.category.name %>
+                                </h5>
+                                <h6>
+                                    Stock: <%= product.stock %>
+                                </h6>
+                                <div class="sizes mt-5">
+                                    <h6 class="text-uppercase">Size</h6>
+                                    <label class="radio">
+                                        <input type="radio" name="size" value="S" checked>
+                                        <span>S</span>
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="size" value="M">
+                                        <span>M</span>
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="size" value="L">
+                                        <span>L</span>
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="size" value="XL">
+                                        <span>XL</span>
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="size" value="XXL">
+                                        <span>XXL</span>
+                                    </label>
+                                </div>
+                                <div class="cart mt-4 align-items-center">
+                                    <button class="btn btn-danger text-uppercase mr-2 px-4" onclick="addToCart('<%=product._id%>')">Add to cart</button>
+                                    <i class="fa fa-heart text-muted"></i>
+                                    <i class="fa fa-share-alt text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <script>
+        $(document).ready(function () {
+            $(".main_img").imagezoomsl({
+                zoomrange: [3, 3]
+            });
+        });
+
+        function change_image(image) {
+            var container = document.getElementsByClassName("main_img")[0];
+            container.src = image.src;
+        }
+    </script>
+</body>
+
+
+
+
+<script>
+    function addToCart(proId) {
+        $.ajax({
+            url: '/addtocart/' + proId, // replace with the URL of your server-side script
+            type: 'POST', 
+            success: (response) => {
+                console.log(response);
+                if (response.done) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Added to Cart',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else if (response.exist) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Already in Cart',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else if (response.stock) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Out of Stock',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    location.href = '/login';
+                }
+            },
+            error: (error) => {
+                console.log(error);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Something went wrong',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+    }
+</script>
+
+
+
+</html>
