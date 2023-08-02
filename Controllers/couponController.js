@@ -10,7 +10,6 @@ const loadCoupon=async(req,res,next)=>{
     try {
         const coupons=await Coupon.find()
         res.render('admin/coupons',{coupons:coupons})
-        console.log(coupons,"this is coupon");
     } catch (error) {
         next(error)
     }
@@ -62,7 +61,6 @@ const deleteCoupon=async(req,res,next)=>{
         const id=req.params.id
         id.trim()
         await Coupon.deleteOne({_id:id})
-        console.log(id," .............................bhhhhhhhhhhhhhhhhhhh");
         res.json('coupons')
     } catch (error) {
         next(error)
@@ -75,7 +73,6 @@ const applyCoupon = async (req, res, next) => {
       const couponDetails = await Coupon.findOne({ code: req.body.code });
       if (couponDetails) {
         const user = await User.findOne({ username: req.session.user.username });
-        console.log(req.body );
         const found = await Coupon.findOne({
           code: req.body.code,
           userUsed: { $in: [user._id] },

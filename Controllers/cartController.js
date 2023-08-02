@@ -1,145 +1,145 @@
-const Product = require('../models/Product');
-const Category=require('../models/Category');
-const User=require('../models/User')
-const Cart=require('../models/Cart');
-const { response } = require('express');
-
+const Product = require("../models/Product");
+const Category = require("../models/Category");
+const User = require("../models/User");
+const Cart = require("../models/Cart");
+const { response } = require("express");
 
 const viewCart = async (req, res) => {
-    try {
-      console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
-      if (req.session.user) {
-        const user = await User.findOne({ _id: req.session.user });
-        const id = user._id;
-        const cart = await Cart.findOne({ user: id });
-        if (cart) {
-          const cartData = await Cart.findOne({ user: id })
-            .populate("product.productId")
-            .lean();
-          if (cartData) {
-            if (cartData.product.length) {
-              const Total = cartData.entirePrice;
-              res.render("cart", {
-                user: req.session.name,
-                data: cartData.product,
-                userId: id,
-                total: Total,
-              });
-            } else {
-              res.render("cart", { user: req.session.name, data2: "hi" });
-            }
+  try {
+    if (req.session.user) {
+      const user = await User.findOne({ _id: req.session.user });
+      const id = user._id;
+      const cart = await Cart.findOne({ user: id });
+      if (cart) {
+        const cartData = await Cart.findOne({ user: id })
+          .populate("product.productId")
+          .lean();
+        if (cartData) {
+          if (cartData.product.length) {
+            const Total = cartData.entirePrice;
+            res.render("cart", {
+              user: req.session.name,
+              data: cartData.product,
+              userId: id,
+              total: Total,
+              
+            });
           } else {
             res.render("cart", { user: req.session.name, data2: "hi" });
           }
         } else {
-          res.render("cart", {
-            user: req.session.name,
-            data2: "hi",
-          });
+          res.render("cart", { user: req.session.name, data2: "hi" });
         }
       } else {
-        res.redirect("/login");
+        res.render("cart", {
+          user: req.session.name,
+          data2: "hi",
+        });
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      res.redirect("/login");
     }
-  };
-  const addtoCart = async (req, res) => {
-    try {
-      if (req.session.user) {
-        const productId = req.params.id;
-        const userName = req.session.user;
-        const userdata = await User.findOne({ _id: userName });
-        const userId = userdata._id;
-        const productData = await Product.findById(productId);
-        console.log(userName, 'UserCartData');
+  } catch (error) {
+    res.status(500).send('Internal Server Error');
+  }
+};
 
-        const userCart = await Cart.findOne({ user: userId });
-  
-        if (userCart) {
-          const productExist = userCart.product.findIndex((product) => product.productId == productId);
-  
-          if (productExist !== -1) {
-            await Cart.findOneAndUpdate(
-              { user: userId, "product.productId": productId },
-              { $inc: { "product.$.quantity": 1 } }
-            );
 
-            res.json({ success: true });
-          } else {
-            userCart.product.push({
-              productId: productId,
-              price: productData.price,
-              quantity: 1,
-              totalPrice: productData.price
-            });
-            userCart.entirePrice += productData.price
-  
-            await userCart.save();
-            res.json({ success: true });
-          }
+
+const addtoCart = async (req, res) => {
+  try {
+    if (req.session.user) {
+      const productId = req.params.id;
+      const userName = req.session.user;
+      const userdata = await User.findOne({ _id: userName });
+      const userId = userdata._id;
+      const productData = await Product.findById(productId);
+
+      const userCart = await Cart.findOne({ user: userId });
+      if (userCart) {
+        const productExist = userCart.product.findIndex(
+          (product) => product.productId == productId
+        );
+
+        if (productExist !== -1) {
+          await Cart.findOneAndUpdate(
+            { user: userId, "product.productId": productId },
+            { $inc: { "product.$.quantity": 1 } }
+          );
+
+          res.json({ success: true });
         } else {
-          const data = new Cart({
-            user: userId,
-            product: [
-              {
-                productId: productId,
-                price: productData.price,
-                quantity: 1,
-                totalPrice: productData.price
-              }
-            ],
-            entirePrice: productData.price
+          userCart.product.push({
+            productId: productId,
+            price: productData.price,
+            quantity: 1,
+            totalPrice: productData.price,
           });
-  
-          await data.save();
+          userCart.entirePrice += productData.price;
+
+          await userCart.save();
           res.json({ success: true });
         }
       } else {
-        res.json({ success: false });
-      }
-    } catch (error) {
-      console.log(error.message);
-      res.json({ success: false, error: error.message });
-    }
-  };
-  
-  const deleteCart = async (req, res) => {
-    try {
-      const { id, qnty, productPrice, entirePrice } = req.body;
-      console.log(req.body, 'req.body');
-      console.log(qnty, 'qt');
-      let qty = parseInt(qnty);
-      let minusPrice = entirePrice - productPrice * qty;
-      console.log(minusPrice, '09');
-  
-      // Find the cart and update it to remove the specific product
-      const cart = await Cart.findOneAndUpdate(
-        { "product.productId": id },
-        { $pull: { product: { productId: id } }, $set: { entirePrice: minusPrice } },
-        { new: true } // Set { new: true } to return the updated cart
-      );
-  
-      if (cart) {
+        const data = new Cart({
+          user: userId,
+          product: [
+            {
+              productId: productId,
+              price: productData.price,
+              quantity: 1,
+              totalPrice: productData.price,
+            },
+          ],
+          entirePrice: productData.price,
+        });
+
+        await data.save();
         res.json({ success: true });
-      } else {
-        res.json({ success: false });
       }
-    } catch (error) {
-      console.log(error.message);
+    } else {
       res.json({ success: false });
     }
-  };
-  //change quantity
+  } catch (error) {
+    res.status(500).send('Internal Server Error');
+    res.json({ success: false, error: error.message });
+  }
+};
+
+const deleteCart = async (req, res) => {
+  try {
+    const { id, qnty, productPrice, entirePrice } = req.body;
+    let qty = parseInt(qnty);
+    let minusPrice = entirePrice - productPrice * qty;
+
+    // Find the cart and update it to remove the specific product
+    const cart = await Cart.findOneAndUpdate(
+      { "product.productId": id },
+      {
+        $pull: { product: { productId: id } },
+        $set: { entirePrice: minusPrice },
+      },
+      { new: true } // Set { new: true } to return the updated cart
+    );
+
+    if (cart) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
+  } catch (error) {
+    res.status(500).send('Internal Server Error');
+    res.json({ success: false });
+  }
+};
+//change quantity
 const changeQnty = async (req, res) => {
   try {
     const { prodId, count, price, qnty } = req.body;
     const userId = req.session.user._id;
     const existingCart = await Cart.findOne({ user: userId });
     const found = await Product.findOne({ _id: prodId });
-    console.log(found, 'Current product');
     if (found.stock > qnty || count === -1) {
-      console.log('decrement');
       await Cart.updateOne(
         { user: userId, "product.productId": prodId },
         { $inc: { "product.$.quantity": count } }
@@ -155,7 +155,6 @@ const changeQnty = async (req, res) => {
           }
         );
       } else {
-        console.log('increment');
         await Cart.updateOne(
           { user: userId },
           {
@@ -190,17 +189,13 @@ const changeQnty = async (req, res) => {
       res.json({ stock: true });
     }
   } catch (error) {
-    console.log(error.message);
-    res.render('error', { message: error.message });
+    res.render("404", { message: error.message });
   }
 };
 
-
-
-  module.exports={
-    viewCart,
-    addtoCart,
-    deleteCart,
-    changeQnty
-  }
-
+module.exports = {
+  viewCart,
+  addtoCart,
+  deleteCart,
+  changeQnty,
+};

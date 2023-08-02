@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Banner</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color:#4e657a;
+    }
+
+    .page-wrapper {
+      padding: 40px 0;
+    }
+
+    .card {
+      border-radius: 8px;
+    }
+
+    .card-title {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-control-line {
+      border-radius: 4px;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+
+    .btn-success:hover {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+
+    .alert {
+      margin-top: 1rem;
+    }
+
+    .container{
+      background-color: #4e657a;
+    }
+  </style>
+</head>
+
+<body style="background-color: #4e657a;">
+  <div class="page-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title text-center">Add Banner</h3>
+              <form action="/admin/addAdds" class="form-horizontal form-material" method="post"
+                enctype="multipart/form-data" id="addBanner">
+                <div class="form-group">
+                  <div id="alertpasswordUser1" class="alert alert-danger" role="alert" style="display: none;"></div>
+                  <div id="alertpasswordUser" class="alert alert-success" role="alert" style="display: none;"></div>
+                  <label class="form-label">Heading</label>
+                  <input type="text" name="head" class="form-control form-control-line">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Description</label>
+                  <input type="text" name="description" class="form-control form-control-line" name="example-email">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Image</label>
+                  <input type="file" multiple name="image" class="form-control form-control-line">
+                </div>
+                <br>
+                <div class="form-group text-center">
+                  <button type='submit' class="btn btn-success">Submit</button>
+                </div>
+              </form>
+              <% if(typeof message !=='undefined' ){ %>
+              <h5 style="color: rgb(224, 86, 86);" class="text-center">
+                <%= message %>
+              </h5>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script>
+    const form = document.querySelector('form');
+    $('#addBanner').submit(function (e) {
+      e.preventDefault();
+      var formData = $(this).serialize();
+      const inputs = document.querySelectorAll('form input')
+      let inputFieldNull = false
+      for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].value.trim() == "") {
+          inputFieldNull = true
+          $('#alertpasswordUser1').attr({ style: "display: block" }).html("All fields are required")
+          setTimeout(() => {
+            $('#alertpasswordUser1').hide()
+          }, 3000)
+        }
+      }
+      if (!inputFieldNull) {
+        inputFieldNull = true
+        $('#alertpasswordUser').attr({ style: "display: block" }).html("Saved")
+        setTimeout(() => {
+          $('#alertpasswordUser').hide()
+        }, 3000)
+        form.submit()
+      }
+    })
+  </script>
+</body>
+
+</html>

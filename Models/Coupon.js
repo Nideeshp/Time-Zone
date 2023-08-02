@@ -23,12 +23,6 @@ const couponSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  percentageOff: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 100  
-  },
   userUsed: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

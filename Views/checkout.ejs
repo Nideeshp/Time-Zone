@@ -2,13 +2,13 @@
 <html lang="zxx">
 
 <head>
-  <meta charset="utf-8">
+  <!-- <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Watch shop | eCommers</title>
   <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <link rel="manifest" href="site.webmanifest">
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+  <title>Watch shop | eCommers</title>
 
   <!-- CSS here -->
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -127,6 +127,7 @@
                           </label>
                         </div>
                         <% }); %>
+                          <input type="text" id="coupon-discount" value="" hidden name="couponDiscount">
                     </div>
                     <a class="btn_3" href="/address">Add New Address</a>
                   </div>
@@ -167,14 +168,32 @@
                       </a>
                     </li>
                   </ul>
-
                   <br>
                   <br>
+                  <!-- Add a section to display the available coupons -->
                   <% if (typeof coupondetails !=='undefined' ) { %>
                     <div class="coupon_box">
                       <h2>Apply Coupon</h2>
+                      <ul class="coupon-list">
+                        <% coupondetails.forEach((coupon)=> { %>
+                          <li>
+                            <span>
+                              <%= coupon.code %>
+                            </span>
+                            <% if (coupon.offer> 0) { %>
+                              <span>
+                                <%= coupon.offer %>% off
+                              </span>
+                              <% } %>
+                                <% if (coupon.maxDiscount> 0) { %>
+                                  <span>(Max discount: INR <%= coupon.maxDiscount %>)</span>
+                                  <% } %>
+                          </li>
+                          <% }) %>
+                      </ul>
                     </div>
                     <% } %>
+
                       <br>
                       <div class="d-flex justify-content-between">
                         <form id="formCoupon" class="row">
@@ -195,6 +214,7 @@
                       <div id="selected-items"></div>
 
                       <br>
+
                       <div class="payment_item">
                         <div class="radion_btn">
                           <input type="radio" id="f-option5" name="payment_method" value="COD" required />
@@ -202,21 +222,24 @@
                           <div class="check"></div>
                         </div>
                       </div>
-                      <div class="payment_item active">
+
+                      <div class="payment_item">
                         <div class="radion_btn">
-                          <input type="text" value="" hidden>
                           <input type="radio" id="f-option6" name="payment_method" value="ONLINE" required />
                           <label for="f-option6">Online Payment</label>
                           <img src="img/product/single-product/card.jpg" alt="" />
                           <div class="check"></div>
                         </div>
                       </div>
+
+
+
+
                 </div>
                 <br>
                 <br>
                 <div class="text-center">
-                  <button type="submit" class="btn_3" id="c-button" style="width: 300px;" <% if (products.length===0) {
-                    %>disabled<% } %>>Proceed to Payment</button>
+                  <button type="submit" class="btn_3" id="c-button" style="width: 300px;">Proceed to Payment</button>
                 </div>
               </div>
             </div>
@@ -362,69 +385,68 @@
   <!-- Jquery Plugins, main Jquery -->
   <script src="./assets/js/plugins.js"></script>
   <script src="./assets/js/main.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>
-  <script src="/user/js/bootstrap.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 
 
   <script>
-  $("#checkout-form").submit((e) => {
-    e.preventDefault();
+   $("#checkout-form").submit((e) => {
+  e.preventDefault();
 
-    $.ajax({
-      url: '/placeOrder',
-      method: 'post',
-      data: $('#checkout-form').serialize(),
-      success: (response) => {
-        if (response.cError) {
-          alert(response.cError);
-          location.reload();
-        } else if (response.error) {
-          alert(response.error);
+  $.ajax({
+    url: '/placeOrder',
+    method: 'post',
+    data: $('#checkout-form').serialize(),
+    success: (response) => {
+      if (response.cError) {
+        alert(response.cError);
+        location.reload();
+      } else if (response.error) {
+        alert(response.error);
+      } else {
+        if (response.online) {
+          razorpayPayment(response.order);
         } else {
-          if (response.online) {
-            console.log('entering online payment');
-            razorpayPayment(response.order);
-          } else {
-            setTimeout(() => {
-              location.reload();
-            }, 100);
-            window.location.href = '/success';
-          }
+          setTimeout(() => {
+            location.reload();
+          }, 100);
+          window.location.href = '/success';
         }
       }
-    });
+    }
   });
+});
+
 
   function razorpayPayment(order) {
+
     var options = {
-      "key": "rzp_test_RyOx6mcc2yYfHD", // Enter the Key ID generated from the Dashboard
-      "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      "currency": "INR",
-      "name": "TIME ZONE", // Your business name
-      "description": "Test Transaction",
-      "image": "https://example.com/your_logo",
-      "order_id": order.orderId, // The order ID obtained in the response of Step 1
-      "handler": function (response) {
-        alert('Payment successful');
+      key: "rzp_test_RyOx6mcc2yYfHD", // Your Razorpay Key ID
+      amount: order.productDt.totalprice * 100, // Amount is in paisa (currency subunits)
+      currency: "INR",
+      name: "TIME ZONE", // Your business name
+      description: "Test Transaction",
+      image: "https://example.com/your_logo",
+      order_id: order.orderId, // The order ID obtained from the server response
+      handler: function (response) {
+        alert('Your order has been successful');
         verifyPayment(response, order);
       },
-      "prefill": {
-        "name": "Gaurav Kumar", // Your customer's name
-        "email": "gaurav.kumar@example.com",
-        "contact": "9000090000"
+      prefill: {
+        name: "Gaurav Kumar", // Your customer's name
+        email: "gaurav.kumar@example.com",
+        contact: "9000090000"
       },
-      "notes": {
-        "address": "Razorpay Corporate Office"
+      notes: {
+        address: "Razorpay Corporate Office"
       },
-      "theme": {
-        "color": "#3399cc"
+      theme: {
+        color: "#3399cc"
       }
     };
 
@@ -432,28 +454,51 @@
     rzp1.open();
   }
 
-  function verifyPayment(payment, order) {
-    const amount = document.getElementById("total").innerHTML;
 
-    $.ajax({
-      url: "/verifyPayment-online",
-      method: "post",
-      data: {
-        payment,
-        amount,
-        order
-      },
-      success: (response) => {
-        if (response.success) {
-          location.href = '/order-placed';
-        } else {
-          alert('Payment failed');
-          location.href = '/home';
-        }
+
+
+  function verifyPayment(response, order) {
+  const payment = {
+    razorpay_order_id: response.razorpay_order_id,
+    razorpay_payment_id: response.razorpay_payment_id,
+    razorpay_signature: response.razorpay_signature,
+  };
+
+  $.ajax({
+    url: "/verifyPayment-online",
+    method: "post",
+    data: {
+      payment: payment,
+      order: order,
+    },
+    success: (response) => {
+      if (response.success) {
+        location.href = '/success'; // Redirect to the success page on successful payment
+      } else {
+        alert('Payment failed'); // Show an error message if payment verification fails
+        location.href = '/home'; // Redirect to the homepage or any error page on payment failure
       }
-    });
-  }
-</script>
+    },
+  });
+}
+
+
+  </script>
+
+
+
+  <script>
+    // Function to show the coupon box with a specific delay
+    function showCouponBox() {
+      const couponBox = document.querySelector('.coupon_box');
+      if (couponBox) {
+        couponBox.style.display = 'block';
+      }
+    }
+
+    // Call the showCouponBox function after a specific time (in milliseconds)
+    setTimeout(showCouponBox, 5000); // Show the coupon box after 5 seconds (adjust the time as needed)
+  </script>
 
 
 
@@ -466,7 +511,7 @@
 
 
 
-<script>
+  <script>
     function applyCoupon(subtotal, code) {
       $.ajax({
         type: "POST",
@@ -479,6 +524,8 @@
             const total = response.value;
             const discount = response.discountValue
             console.log(total, discount);
+            var input = document.getElementById("coupon-discount");
+            input.value = discount;
             $("#selected-items").html(`
           <h3>Selected Coupon</h3>
           <p>Coupon Code: ${code}</p>
@@ -508,15 +555,7 @@
         },
       });
     }
-
-
-
   </script>
-
-
-
 </body>
-
-
 
 </html>

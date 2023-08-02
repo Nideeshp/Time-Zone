@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Wallet</title>
+    <!-- Add your CSS stylesheets and other dependencies here -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .wallet-card {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .wallet-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .wallet-balance {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .wallet-transaction-history {
+            margin-top: 20px;
+        }
+
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+
+        .transaction-date {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .transaction-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .transaction-description {
+            flex: 1;
+            margin-left: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .transaction-amount.deposit {
+            color: green;
+        }
+
+        .transaction-amount.withdrawal {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="wallet-card">
+            <div class="wallet-header">
+                <h1>Welcome to Your Wallet</h1>
+                <p>Your Wallet ID: 1234567890</p>
+            </div>
+            <div class="wallet-balance">
+                <p>Your Wallet Balance: <%= user.wallet %>
+                </p>
+            </div>
+            <div class="wallet-transaction-history">
+            </div>
+        </div>
+    </div>
+    <!-- Add your JavaScript scripts and other dependencies here -->
+</body>
+
+</html>

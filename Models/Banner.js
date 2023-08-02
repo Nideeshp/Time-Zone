@@ -13,10 +13,6 @@ const bannerSchema= new mongoose.Schema({
         type:Array,
         required:true
       },
-      url:{
-        type:String,
-        required:true
-      },
       status:{
         type:Number,
         default:true,

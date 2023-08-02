@@ -2,11 +2,11 @@
 <html class="no-js" lang="zxx">
 
 <head>
-    <meta charset="utf-8">
+    <!-- <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Watch shop | eCommers</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <link rel="manifest" href="site.webmanifest">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
@@ -23,9 +23,9 @@
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    
+
     <style>
         .favorit-items .flaticon-heart {
             color: black;
@@ -34,6 +34,21 @@
 
         .favorit-items .flaticon-heart.active {
             color: red;
+        }
+
+        .price-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .before-offer-price {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .after-offer-price {
+            font-weight: bold;
+            color: #007bff;
         }
     </style>
 </head>
@@ -96,62 +111,55 @@
     </header>
     <main>
         <!--? slider Area Start -->
-        <div class="slider-area ">
+        <div class="slider-area">
             <div class="slider-active">
-                <!-- Single Slider -->
-                <div class="single-slider slider-height d-flex align-items-center slide-bg">
-                    <div class="container">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                                <div class="hero__caption">
-                                    <h1 data-animation="fadeInLeft" data-delay=".4s" data-duration="2000ms">Select Your
-                                        New Perfect Style</h1>
-                                    <p data-animation="fadeInLeft" data-delay=".7s" data-duration="2000ms">Ut enim ad
-                                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat is aute irure.</p>
-                                    <!-- Hero-btn -->
-                                    <div class="hero__btn" data-animation="fadeInLeft" data-delay=".8s"
-                                        data-duration="2000ms">
-                                        <a href="industries.html" class="btn hero-btn">Shop Now</a>
+                <% add.forEach(function (banner, index) { %>
+                    <div
+                        class="single-slider slider-height d-flex align-items-center slide-bg <% if (index === 0) { %>active<% } %>">
+                        <div class="container">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                                    <div class="hero__caption">
+                                        <h1 data-animation="fadeInLeft" data-delay=".3s" data-duration="1s">
+                                            <%= banner.name %>
+                                        </h1>
+                                        <p data-animation="fadeInLeft" data-delay=".3s" data-duration="1s">
+                                            <%= banner.description %>
+                                                <br>
+                                                <br>
+                                                <% if (coupons[index].expirationDate) { %>
+                                                    Coupon Code: <%=coupons[index].code %>,
+                                                        <br>
+                                                        Discount: <%=coupons[index].maxDiscount %>,
+                                                            <br>
+                                                            Max Purchase Amount: INR <%=
+                                                                coupons[index].MinPurchaceAmount %>
+                                                                <br>
+                                                                <% } %>
+
+                                        </p>
+                                        <!-- Hero-btn -->
+                                        <div class="hero__btn" data-animation="fadeInLeft" data-delay=".3s"
+                                            data-duration="1s">
+                                            <a href="" class="btn hero-btn">Shop Now</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 d-none d-sm-block">
-                                <div class="hero__img" data-animation="bounceIn" data-delay=".4s">
-                                    <img src="assets/img/hero/watch.png" alt="" class=" heartbeat">
+                                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 d-none d-sm-block">
+                                    <div class="hero__img" data-animation="bounceIn" data-delay=".3s">
+                                        <img src="uploads/<%= banner.image %>" style="height:250px; border-radius:30px;"
+                                            alt="" class="heartbeat">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Single Slider -->
-                <div class="single-slider slider-height d-flex align-items-center slide-bg">
-                    <div class="container">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-                                <div class="hero__caption">
-                                    <h1 data-animation="fadeInLeft" data-delay=".4s" data-duration="2000ms">Select Your
-                                        New Perfect Style</h1>
-                                    <p data-animation="fadeInLeft" data-delay=".7s" data-duration="2000ms">Ut enim ad
-                                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat is aute irure.</p>
-                                    <!-- Hero-btn -->
-                                    <div class="hero__btn" data-animation="fadeInLeft" data-delay=".8s"
-                                        data-duration="2000ms">
-                                        <a href="industries.html" class="btn hero-btn">Shop Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 d-none d-sm-block">
-                                <div class="hero__img" data-animation="bounceIn" data-delay=".4s">
-                                    <img src="assets/img/hero/watch.png" alt="" class=" heartbeat">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <% }); %>
+
+
             </div>
         </div>
+
         <!-- Gallery Area End -->
         <!-- Popular Items Start -->
         <div class="popular-items section-padding30">
@@ -168,31 +176,44 @@
                 </div>
                 <div class="row">
                     <% products.forEach(function(element) { %>
-                        <%if(!element.deleted) { %>
+                      <% if (!element.deleted) { %>
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                            <div class="single-popular-items mb-50 text-center">
-                                <div class="popular-img">
-                                    <a href="/viewproduct/<%=element._id%>">
-                                        <img src="/uploads/<%= element.image[2] %>" style='height: 350px; width: 300px;'
-                                            alt="Product Image">
-                                    </a>
-                                    <div class="img-cap">
-                                        <span onclick="addToCart('<%=element._id%>')">Add to cart</span>
-                                    </div>
-                                    <div class="favorit-items">
-                                        <span class="flaticon-heart" onclick="addtoWishlist('<%=element._id%>')"></span>
-                                    </div>
-                                </div>
-                                <div class="popular-caption">
-                                    <h3><a href="#">
-                                            <%= element.name %>
-                                        </a></h3>
-                                    <span> INR <%= element.price %></span>
-                                </div>
+                          <div class="single-popular-items mb-50 text-center">
+                            <div class="popular-img">
+                              <a href="/viewproduct/<%=element._id%>">
+                                <img src="/uploads/<%= element.image[2] %>" style="height: 350px; width: 300px;" alt="Product Image">
+                              </a>
+                              <div class="img-cap">
+                                <span onclick="addToCart('<%=element._id%>')">Add to cart</span>
+                              </div>
+                              <div class="favorit-items">
+                                <span class="flaticon-heart" onclick="addtoWishlist('<%=element._id%>')"></span>
+                              </div>
                             </div>
+                            <div class="popular-caption">
+                              <h3>
+                                <a href="#">
+                                  <%= element.name %>
+                                </a>
+                              </h3>
+                              <% if (element.offerPrice > 0) { %>
+                                <div class="price-wrapper">
+                                  <span class="before-offer-price">INR <%=element.price %> off</span>
+                                  <span class="after-offer-price">INR <%=element.offerPrice %></span>
+                                </div>
+                              <% } else { %>
+                                <span>INR <%= element.price %></span>
+                              <% } %>
+                            </div>
+                          </div>
                         </div>
-                        <% }}) %>
-                </div>
+                      <% } %>
+                    <% }) %>
+                  </div>
+                  
+
+
+
                 <!-- Button -->
                 <div class="row justify-content-center">
                     <div class="room-btn pt-70">
@@ -433,6 +454,35 @@
 
 
 
+
+
+
+    <script>
+        $(document).ready(function () {
+            var slideIndex = 0;
+            showSlides();
+
+            function showSlides() {
+                var slides = $(".single-slider");
+                for (var i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slideIndex++;
+                if (slideIndex > slides.length) {
+                    slideIndex = 1;
+                }
+                slides[slideIndex - 1].style.display = "block";
+                setTimeout(showSlides, 2000); // Change slide every 2 seconds
+            }
+        });
+    </script>
+
+
+
+
+
+
+
     <script>
         function addtoWishlist(proId) {
             console.log(proId);
@@ -465,52 +515,52 @@
     </script>
 
 
-<script>
-    function addToCart(proId) {
-        $.ajax({
-            url: '/addtocart/' + proId, // replace with the URL of your server-side script
-            type: 'POST', 
-            success: (response) => {
-                console.log(response);
-                if (response.done) {
+    <script>
+        function addToCart(proId) {
+            $.ajax({
+                url: '/addtocart/' + proId, // replace with the URL of your server-side script
+                type: 'POST',
+                success: (response) => {
+                    console.log(response);
+                    if (response.done) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Added to Cart',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else if (response.exist) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Already in Cart',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else if (response.stock) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Out of Stock',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        location.href = '/login';
+                    }
+                },
+                error: (error) => {
+                    console.log(error);
                     Swal.fire({
                         position: 'center',
-                        icon: 'success',
-                        title: 'Added to Cart',
+                        icon: 'error',
+                        title: 'Something went wrong',
                         showConfirmButton: false,
                         timer: 1500
                     });
-                } else if (response.exist) {
-                    Swal.fire({
-                        position: 'center',
-                        title: 'Already in Cart',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                } else if (response.stock) {
-                    Swal.fire({
-                        position: 'center',
-                        title: 'Out of Stock',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                } else {
-                    location.href = '/login';
                 }
-            },
-            error: (error) => {
-                console.log(error);
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Something went wrong',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-        });
-    }
-</script>
+            });
+        }
+    </script>
 
 
 

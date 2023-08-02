@@ -33,6 +33,17 @@ const productSchema=new mongoose.Schema({
     deleted:{
         type:Boolean,
         default:false
+    },
+    offer:{
+        type:Number,
+    },
+    offerApplied:{
+        type:Boolean,
+        default:false
+    },
+    offerPrice:{
+        type:Number,
+        default:false,
     }
 
 

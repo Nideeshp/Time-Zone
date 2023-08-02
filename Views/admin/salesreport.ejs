@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Hello, world!</title>
+
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+    <!-- https://fonts.google.com/specimen/Roboto -->
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+    <!-- https://fontawesome.com/ -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- https://getbootstrap.com/ -->
+    <link rel="stylesheet" href="/css/templatemo-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+</head>
+
+<body>
+
+   
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class=" ">
+                    <ol class="breadcrumb mb-0">
+
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="card ml-1">
+            <div class="card-body">
+                <div class="container mb-5 mt-3">
+
+                    <nav class="navbar navbar-expand-xl">
+                        <div class="container h-100">
+                            <a class="navbar-brand" href="index.html">
+                                <h1 class="tm-site-title mb-0">Sales</h1>
+                            </a>
+                            <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                                <i class="fas fa-bars tm-nav-icon"></i>
+                            </button>
+            
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mx-auto h-100">
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="/admin/adminHome">
+                                            Dashboard
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin/userManage">
+                                            User Management
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin/categoryManage">
+                                            Category Management
+                                        </a>
+                                    </li>
+            
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin/productManage">
+                                            Product Management
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span>
+                                                More
+                                            </span>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="/admin/orderHistory">Order Management</a>
+                                            <a class="dropdown-item" href="/admin/coupons">Coupon Management</a>
+                                            <a class="dropdown-item" href="/admin/ads">Banner Management</a>
+                                            <a class="dropdown-item" href="/admin/salesReports">Sales report</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link d-block" href="/admin/logout">
+                                            <b>Logout</b>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div class="container ml-3">
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <p class="pt-0">Sales Report</p>
+                            </div>
+
+                        </div>
+
+                     
+                        <div class="col-xl-2  btn btn-primary mb-2">
+                            <a style="border: black;"  onclick="window.print()">Print Report</a>
+                        </div>
+
+
+                        <div class="row my-2 mx-1 justify-content-center">
+                            <table class="table table-striped table-borderless" id="saless">
+                                <thead style="background-color:#84B0CA ;" class="text-white">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Qty</th>
+                                        <th scope="col">Payment Method</th>
+                                        <th scope="col">Total Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for (let i = 0; i < ss.length; i++) { %>
+                                        <tr>
+                                            <td><%= i + 1 %></td>
+                                            <td><%= ss[i].date.toLocaleDateString() %></td>
+                                            <td>
+                                                <% ss[i].productDt.items.forEach((item) => { %>
+                                                    &#9679; <%= item.productId.name %><br>
+                                                <% }) %>
+                                            </td>
+                                            <td>
+                                                <% ss[i].productDt.items.forEach((item) => { %>
+                                                    &#9679; <%= item.qty %><br>
+                                                <% }) %>
+                                            </td>
+                                           
+                                            <td><%= ss[i].paymentMethod %></td>
+                                            <td><%= ss[i].productDt.totalprice %></td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-10">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <script>
+            $(document).ready(function () {
+                $('#saless').DataTable();
+            });
+        </script>
+
+
+
+<script src="/js/jquery-3.3.1.min.js"></script>
+<!-- https://jquery.com/download/ -->
+<script src="/js/moment.min.js"></script>
+<!-- https://momentjs.com/ -->
+<script src="/js/Chart.min.js"></script>
+<!-- http://www.chartjs.org/docs/latest/ -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- https://getbootstrap.com/ -->
+<script src="/js/tooplate-scripts.js"></script>
+<!-- Add Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</body>
+
+</html>

@@ -1,31 +1,51 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const Admin = require('../Models/Admin');
-const Category = require('../models/Category');
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const Admin = require("../Models/Admin");
+const Category = require("../models/Category");
+
+
+
 
 
 //loadcategory manage
 const loadcategoryManage = async (req, res) => {
   try {
     const categories = await Category.find();
-    res.render('admin/categoryManage', { categories,message :''});
+    res.render("admin/categoryManage", { categories, message: "" });
   } catch (error) {
-    console.log(error.message);
+    res.status(500).send('Internal Server Error');
   }
 };
+
+
+
+
+
+
+
+//load add category
 const loadaddCategory = async (req, res, next) => {
   try {
     const { name, description } = req.body;
 
-    // Convert the name to lowercase for case-insensitive comparison
-    const lowerCaseName = name.toLowerCase();
+    const Name = req.body.name.trim();
+    const Des = req.body.description.trim();
 
-    // Check if the category name already exists (case-insensitive)
-    const existingCategory = await Category.findOne({ name: { $regex: new RegExp(`^${lowerCaseName}$`, 'i') } });
+    if (!Name || !Des) {
+      return res
+        .status(400)
+        .send("Something you entered is empty please check it.");
+    }
+
+    const lowerCaseName = Name.toLowerCase(); 
+
+    const existingCategory = await Category.findOne({
+      name: { $regex: new RegExp(`^${lowerCaseName}$`, "i") },
+    });
     if (existingCategory) {
       const categories = await Category.find();
-      const message = 'Category already exists';
-      return res.render('admin/categoryManage', { categories, message });
+      const message = "Category already exists";
+      return res.render("admin/categoryManage", { categories, message });
     }
 
     // Create a new category
@@ -34,57 +54,74 @@ const loadaddCategory = async (req, res, next) => {
 
     if (savedCategory) {
       const categories = await Category.find();
-      const message = 'Category added';
-      return res.render('admin/categoryManage', { categories, message });
+      const message = "Category added";
+      return res.render("admin/categoryManage", { categories, message });
     } else {
       const categories = await Category.find();
-      const message = 'Action failed';
-      return res.render('admin/categoryManage', { categories, message });
+      const message = "Action failed";
+      return res.render("admin/categoryManage", { categories, message });
     }
   } catch (error) {
     next(error);
   }
 };
 
+
+
+
+
+
 //loadedit category
-const loadeditCategory=async(req,res,next)=>{
+const loadeditCategory = async (req, res, next) => {
   try {
-    const id=req.params.id
-    const details=await Category.findOne({_id:id})
-    const main=details.id;
-    res.render('admin/editcategory',{details:details,main:main})
+    const id = req.params.id;
+    const details = await Category.findOne({ _id: id });
+    const main = details.id;
+    res.render("admin/editcategory", { details: details, main: main });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
+
+
+
+
+
+
+
 
 const editedCategory = async (req, res, next) => {
   try {
     const id = req.params.id;
+    const {name,description,offerPercent}=req.body
+
     const updatedCategory = await Category.findOneAndUpdate(
       { _id: id },
-      { $set: { name: req.body.name, description: req.body.description } },
+      { $set: { name,description,offerPercent } },
       { new: true }
     );
 
     if (updatedCategory) {
-      res.redirect('/admin/categoryManage',);
+      res.redirect("/admin/categoryManage");
     } else {
-      res.render('admin/editcategory', { message: 'Failed to update category' });
+      res.render("admin/editcategory", {
+        message: "Failed to update category",
+      });
     }
   } catch (error) {
     next(error);
   }
 };
+
+
+
+
+
 
 module.exports = {
   loadcategoryManage,
   loadaddCategory,
   loadeditCategory,
-  editedCategory
+  editedCategory,
 };
-
-
-
-
-

@@ -1,4 +1,83 @@
-<div class="page-wrapper">
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Add Coupons</title>
+  <style>
+    body {
+      background-color: #4e657a;
+    }
+
+    .page-wrapper {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .card-subtitle {
+      font-size: 16px;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input.form-control-line {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 12px;
+      width: 100%;
+      transition: border-color 0.3s ease;
+    }
+
+    input.form-control-line:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    button.btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007bff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button.btn:hover {
+      background-color: #0056b3;
+    }
+
+    .alert {
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page-wrapper">
     <div class="container-fluid">
       <div class="row page-titles">
         <div class="col-md-5 align-self-center">
@@ -14,43 +93,26 @@
             <form action="/admin/addCoupons" class="form-horizontal form-material" method="post" id="addCoupon">
                 <div id="alertpasswordUser1" class="alert alert-danger" role="alert" style="display: none;"></div>
               <div class="form-group">
-                <label class="col-md-8">Coupon Code</label>
-                <div class="col-md-8">
-                  <input type="text" name="code" class="form-control form-control-line">
-                </div>
+                <label>Coupon Code</label>
+                <input type="text" name="code" class="form-control form-control-line">
               </div>
               <div class="form-group">
-                <label class="col-md-12">Expire Date</label>
-                <div class="col-md-8">
-                  <input type="date" name="expirationDate" id="date-input" class="form-control form-control-line"
-                    name="example-email" id="example-email">
-                </div>
+                <label>Expire Date</label>
+                <input type="date" name="expirationDate" id="date-input" class="form-control form-control-line"
+                  name="example-email" id="example-email">
               </div>
               <div class="form-group">
-                <label class="col-md-12">Maximum Discount</label>
-                <div class="col-md-8">
-                  <input type="number" name="maxDiscount" class="form-control form-control-line" name="example-email"
-                    id="example-email">
-                </div>
+                <label>Maximum Discount</label>
+                <input type="number" name="maxDiscount" class="form-control form-control-line" name="example-email"
+                  id="example-email">
               </div>
               <div class="form-group">
-                <label class="col-md-8">Minimum Purchase Amount</label>
-                <div class="col-md-8">
-                  <input type="number" name="MinPurchaceAmount" class="form-control form-control-line" name="example-email"
-                    id="example-email">
-                </div>
+                <label>Minimum Purchase Amount</label>
+                <input type="number" name="MinPurchaceAmount" class="form-control form-control-line" name="example-email"
+                  id="example-email">
               </div>
               <div class="form-group">
-                <label class="col-md-12">Percentage Off</label>
-                <div class="col-md-8">
-                  <input type="number" max="100" name="percentageOff" class="form-control form-control-line" name="example-email"
-                    id="example-email">
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <button type='submit' class="btn btn-success">Submit</button>
-                </div>
+                <button type='submit' class="btn btn-success">Submit</button>
               </div>
             </form>
           </div>
@@ -58,54 +120,7 @@
       </div>
     </div>
   </div>
-  
-  <style>
-    .page-wrapper {
-      padding: 20px;
-    }
-  
-    .card {
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-  
-    .card-title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-  
-    .card-subtitle {
-      font-size: 16px;
-      color: #888;
-      margin-bottom: 20px;
-    }
-  
-    .form-group {
-      margin-bottom: 20px;
-    }
-  
-    label {
-      font-weight: bold;
-    }
-  
-    input.form-control-line {
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      width: 100%;
-    }
-  
-    button.btn {
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-  
-    .alert {
-      margin-bottom: 20px;
-      padding: 10px;
-      border-radius: 5px;
-    }
-  </style>
-  
+
+</body>
+
+</html>

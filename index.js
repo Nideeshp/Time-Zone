@@ -5,7 +5,8 @@ const dotenv = require("dotenv").config();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-// const adminRoute = require('./routes/adminRoute');
+const adminRoute = require('./routes/adminRoute');
+const nocache = require('nocache')
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(session({
 
 // body parsing
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 
 app.use(express.static('public'));
 
@@ -38,7 +40,8 @@ app.use(cookieParser());
 app.use('/', require('./routes/login'));
 
 // admin route
-// app.use('/admin', adminRoute);
+app.use('/admin', adminRoute);
+app.use(nocache())
 
 const errorRoutes = require('./routes/errorRoutes');
 app.use(errorRoutes);

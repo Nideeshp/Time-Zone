@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -43,8 +44,8 @@
       }
 
       .order-actions {
-        display: flex;
-        justify-content: flex-end;
+        /* display: flex; */
+        justify-content: flex-start;
       }
 
       .cancel-btn {
@@ -66,6 +67,9 @@
         text-align: center;
         margin-top: 20px;
         color: #888;
+      }
+      .p-cn{
+        color: green;
       }
     </style>
   </head>
@@ -95,15 +99,30 @@
                 <% }); %>
               </div>
               <div class="order-actions">
-                <% if (order.status === 'placed') { %>
+                <% if (order.status === 'placed' || order.status === 'pending' || order.status === 'processing') { %>
                   <form action="/cancelOrder" method="POST">
                     <input type="hidden" name="orderId" value="<%= order._id %>">
+                    <br>
                     <button type="submit" class="cancel-btn">Cancel Order</button>
                   </form>
+                <% } else if (order.status === 'delivered') { %>
+                  <form action="/returnProduct" method="POST">
+                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                    <br>
+                    <button type="submit" class="cancel-btn">Return Product</button>
+                  </form>
+                <% } else if (order.status === 'returned') { %>
+                  <br>
+                  <button class="cancel-btn" disabled>Order Returned</button>
+                  <p class="p-cn">Your money has been returned to Wallet</p>
                 <% } else { %>
+                  <br>
                   <button class="cancel-btn" disabled>Order Cancelled</button>
+                  <p class="p-cn">Your money has been returned to Wallet</p>
                 <% } %>
               </div>
+              
+              
             </div>
           </div>
         <% }); %>
@@ -114,3 +133,4 @@
     <!-- Add your JavaScript scripts and other dependencies here -->
   </body>
 </html>
+

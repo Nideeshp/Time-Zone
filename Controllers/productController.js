@@ -32,7 +32,6 @@ const loadaddProduct = async (req, res) => {
 };
 
 
-
 const insertProduct = async (req, res, next) => {
   try {
     const images = [];
@@ -45,28 +44,50 @@ const insertProduct = async (req, res, next) => {
       images.push(file.filename);
     }
 
+    // Trim the input values
+    const productName = req.body.name.trim();
+    const description = req.body.description.trim();
+    const brand = req.body.brand.trim()
+    const price = parseFloat(req.body.price);
+    const stock = parseFloat(req.body.stock)
     
+    // Check if the name and description are not empty after trimming
+    if (!productName || !description || !brand) {
+      return res.status(400).send('Something you entered is empty please check it.');
+    }
 
- const products=new Product({
-  name:req.body.name,
-  description:req.body.description,
-  brand:req.body.brand,
-  image:images,
-  price:req.body.price,
-  stock:req.body.stock,
-  category:req.body.category
-})
-const categoryData=await products.save()
-if(categoryData){
-  res.redirect('productManage')
-}
+    if(isNaN(price)||price<=0){
+      return res.status(400).send('Something in your price')
+    }
+
+    if(isNaN(stock)||stock<=0){
+      return res.status(400).send("Something in your stock")
+    }
+
+    // if(isNaN(offer)||offer<=0){
+    //   return res.status(400).send("Something in your offer")
+    // }
 
 
+    const products = new Product({
+      name: productName,
+      description: description,
+      brand: req.body.brand,
+      image: images,
+      price: req.body.price,
+      stock: req.body.stock,
+      category: req.body.category,
+    });
 
+    const categoryData = await products.save();
+    if (categoryData) {
+      res.redirect('productManage');
+    }
   } catch (error) {
     next(error);
   }
 };
+
 
 // Function to validate image file types
 const isValidImageFile = (file) => {
@@ -90,45 +111,53 @@ const deleteProduct=async(req,res,next)=>{
 }
 
 
-//loadeditproductpage
 const loadeditProduct = async (req, res, next) => {
-  console.log('called');
   try {
-
     const id = req.params.id;
-    console.log(id);
-    const details1 = await Product.findOne({ _id: id }).populate('category').exec();
-    const details = await Product.findOne({ _id: id });
-    const main = details1._id;
-    const catData = await Category.find({ categoryName: details1.category.categoryName });
+    const product = await Product.findOne({ _id: id }).populate('category').exec();
+    const catData = await Category.find({});
     const categoryData = await Category.find({});
-    console.log(catData);
-    res.render('admin/editProduct', { details: details, categoryData: categoryData, main: main, catData: catData });
+    res.render('admin/editProduct', { product: product, categoryData: categoryData, catData: catData });
   } catch (error) {
     next(error);
   }
 };
 
+
+
 const editProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
-    console.log(id);
+    const { name, price, description, category, stock, brand, offer } = req.body;
     await Product.updateOne({ _id: id }, {
       $set: {
-        name: req.body.name,
-        price: req.body.price,
-        description: req.body.description,
-        category: req.body.category,
-        stock: req.body.stock,
-        brand: req.body.brand
+        name: name,
+        price: price,
+        description: description,
+        category: category,
+        stock: stock,
+        brand: brand,
+        offer: offer
       }
-    });
+    }).then((resp) => console.log(resp))
+    // Handle the offer logic
+    const product=await Product.findOne({})
+    if(product.offerApplied){
+      let newPrice = price;
+    if (offer > 0) {
+      newPrice = Math.round(price - (price * offer / 100));
+      await Product.updateOne({_id:id},{
+        $set:{
+          offerPrice:newPrice,
+        }
+      })
+    }
+    }
     res.redirect('/admin/productManage');
   } catch (error) {
     next(error);
   }
 };
-
 
 const loadEditImage = async (req, res, next) => {
   try {

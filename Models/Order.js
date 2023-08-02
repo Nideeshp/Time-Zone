@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Product=require('./Product')
 
 const orderSchema = new mongoose.Schema({
   userId: {
@@ -14,12 +13,18 @@ const orderSchema = new mongoose.Schema({
   status: {
     type: String,
   },
+  deliveryDate:{
+    type:String,
+  },
+  returnDate:{
+    type:Date,
+  },
   productDt: {
     items: [
       {
         productId: {
           type: mongoose.Types.ObjectId,
-          ref: Product,
+          ref: 'Product',
         },
         qty: {
           type: Number,

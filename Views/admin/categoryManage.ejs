@@ -9,14 +9,92 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
 </head>
-<body>
 
+
+
+<body style="background: #4e657a;">
+
+  <h1 class="">Category Management</h1>
+
+<%-include('../layouts/admin/nav.ejs') %>
  
 
   <div class="container">
-    <h1 class="">Category Management</h1>
     <br>
     <br>
+
+
+<style>
+  /* categoryManage.css */
+
+/* Add some basic styles to the table */
+table.category-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  font-size: 16px;
+}
+
+table.category-table th,
+table.category-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+table.category-table th {
+  background-color: #f2f2f2;
+}
+
+/* Style the Add Category form */
+.form-container {
+  width: 70%;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-container button {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.form-container button:hover {
+  background-color: #45a049;
+}
+
+/* Style the edit button */
+.edit-button {
+  background-color: #2196F3;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #0d8bf2;
+}
+
+</style>
+
+
     <form action="/admin/addCategory" method="post">
       <div class="input-container">
         <input type="text" id="category-input" placeholder="Enter category" name="name" required>

@@ -1,158 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/userManage.css">
-    <link href="/admin_assets/assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/admin_assets/assets/node_modules/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
-    <!-- This page CSS -->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <!-- <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+  <title>Bootstrap User Management Data Table</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
 
-    <!-- chartist CSS -->
-    <link href="/admin_assets/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
-    <!--c3 CSS -->
-    <link href="/admin_assets/assets/node_modules/c3-master/c3.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="/admin_assets/css/style.css" rel="stylesheet">
-    <!-- Dashboard 1 Page CSS -->
-    <link href="/admin_assets/css/pages/dashboard1.css" rel="stylesheet">
-    <!-- You can change the theme colors from here -->
-    <link href="/admin_assets/css/colors/default.css" id="theme" rel="stylesheet">
-    
-    <link rel="stylesheet" href="/admin_assets/css/pages/carts.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-        crossorigin="anonymous"></script>
 
-    
+
+
+  <style>
+    body {
+      color: #4e657a;
+      background: #4e657a;
+      font-family: 'Varela Round', sans-serif;
+      font-size: 13px;
+    }
+
+    .table-responsive {
+      margin: 30px 0;
+    }
+
+    .table-wrapper {
+      min-width: 1000px;
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 10px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    }
+
+    .table-title {
+      padding-bottom: 15px;
+      background: #4e657a;
+      color: #fff;
+      padding: 16px 30px;
+      margin: -20px -25px 10px;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .table-title h2 {
+      margin: 5px 0 0;
+      font-size: 24px;
+    }
+
+    .table-title .btn {
+      color: #566787;
+      float: right;
+      font-size: 13px;
+      background: #fff;
+      border: none;
+      min-width: 50px;
+      border-radius: 2px;
+      border: none;
+      outline: none !important;
+      margin-left: 10px;
+    }
+
+    .table-title .btn:hover,
+    .table-title .btn:focus {
+      color: #566787;
+      background: #f2f2f2;
+    }
+
+    .table-title .btn i {
+      float: left;
+      font-size: 21px;
+      margin-right: 5px;
+    }
+
+    .table-title .btn span {
+      float: left;
+      margin-top: 2px;
+    }
+
+    table.table tr th,
+    table.table tr td {
+      border-color: #e9e9e9;
+      padding: 12px 15px;
+      vertical-align: middle;
+    }
+
+    table.table tr th:first-child {
+      width: 60px;
+    }
+
+    table.table tr th:last-child {
+      width: 100px;
+    }
+
+    table.table-striped tbody tr:nth-of-type(odd) {
+      background-color: #fcfcfc;
+    }
+
+    table.table-striped.table-hover tbody tr:hover {
+      background: #f5f5f5;
+    }
+
+    table.table th i {
+      font-size: 13px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    table.table td:last-child i {
+      opacity: 0.9;
+      font-size: 22px;
+      margin: 0 5px;
+    }
+
+    table.table td a {
+      font-weight: bold;
+      color: #566787;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    table.table td a:hover {
+      color: #2196F3;
+    }
+
+    table.table td a.settings {
+      color: #2196F3;
+    }
+
+    table.table td a.delete {
+      color: #F44336;
+    }
+
+    table.table td i {
+      font-size: 19px;
+    }
+
+    table.table .avatar {
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    .status {
+      font-size: 30px;
+      margin: 2px 2px 0 0;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 10px;
+    }
+
+    .text-success {
+      color: #10c469;
+    }
+
+    .text-info {
+      color: #62c9e8;
+    }
+
+    .text-warning {
+      color: #FFC107;
+    }
+
+    .text-danger {
+      color: #ff5b5b;
+    }
+
+    .pagination {
+      float: right;
+      margin: 0 0 5px;
+    }
+
+    .pagination li a {
+      border: none;
+      font-size: 13px;
+      min-width: 30px;
+      min-height: 30px;
+      color: #999;
+      margin: 0 2px;
+      line-height: 30px;
+      border-radius: 2px !important;
+      text-align: center;
+      padding: 0 6px;
+    }
+
+    .pagination li a:hover {
+      color: #666;
+    }
+
+    .pagination li.active a,
+    .pagination li.active a.page-link {
+      background: #03A9F4;
+    }
+
+    .pagination li.active a:hover {
+      background: #0397d6;
+    }
+
+    .pagination li.disabled i {
+      color: #ccc;
+    }
+
+    .pagination li i {
+      font-size: 16px;
+      padding-top: 6px
+    }
+
+    .hint-text {
+      float: left;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+  </style>
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 </head>
-<body>
-    <div class="container-fluid">
-        <div class="col-md-9">
-          <h1>User Management</h1>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Email</th>
-                <!-- <th>STATUS</th> -->
-                <th>ACTION</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if (userData.length > 0) { %>
-                <% userData.forEach((user, index) => { %>
-                  <tr>
-                    <td><%= index + 1 %></td>
-                    <td><%= user.name %></td>
-                    <td><%= user.email %></td>
-                    <td>
-                      <% if (user.blocked===false) { %>
-                        <!-- <form action="/admin/userManage/unblock" method="POST"> -->
-                         <button onclick="validate2('<%= user._id %>')"class="btn btn-danger" >Block</button>
 
-                        <!-- </form> -->
+<body>
+  <div class="container-fluid">
+    <%- include('../layouts/admin/nav.ejs') %>
+  </div>
+
+  <div class="container-xl">
+
+    <div class="table-responsive">
+
+      <div class="table-wrapper">
+        <div class="table-title">
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="col-sm-5">
+                <h2>User <b>Management</b></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Name</th>
+              <th>Email</th>
+              <!-- <th>STATUS</th> -->
+              <th>ACTION</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% if (userData.length> 0) { %>
+              <% userData.forEach((user, index)=> { %>
+                <tr>
+                  <td>
+                    <%= index + 1 %>
+                  </td>
+                  <td>
+                    <%= user.name %>
+                  </td>
+                  <td>
+                    <%= user.email %>
+                  </td>
+                  <td>
+                    <% if (user.blocked===false) { %>
+                      <!-- <form action="/admin/userManage/unblock" method="POST"> -->
+                      <button onclick="validate2('<%= user._id %>')" class="btn btn-danger">Block</button>
+                      <!-- </form> -->
                       <% } else { %>
                         <!-- <form action="/admin/userManage/block<" method="POST"> -->
-                             <button onclick="validate1('<%= user._id %>')" class="btn btn-success">UnBlock</button>
-
+                        <button onclick="validate1('<%= user._id %>')" class="btn btn-success">UnBlock</button>
                         <!-- </form> -->
-                      <% } %>
-                    </td>
-                  </tr>
-                <% }); %>
-              <% } else { %>
-                <tr>
-                  <td colspan="5">Users not found</td>
+                        <% } %>
+                  </td>
                 </tr>
-              <% } %>
-            </tbody>
-          </table>
-        </div>
+                <% }); %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="5">Users not found</td>
+                    </tr>
+                    <% } %>
+          </tbody>
+        </table>
+
+        <div class="clearfix"></div>
       </div>
-
-
-      
-
-
-
-
-
-
-
-
-
-
-
-      <script>
-        function validate2(deleteId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You wan't to block this user!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'yes,blocked!'
-            }).then((result) => {
-                   if (result.isConfirmed) {
-                                $.ajax({
-                                    url: '/admin/userManage/block/'+deleteId,
-                                    method: 'get',
-                                    success: (response) => {
-                                        Swal.fire({
-                                            title: 'blocked!',
-                                            text: 'blocked',
-                                            icon: 'success',
-                                            showConfirmButton: false
-                                        });
-                                        setTimeout(() => {
-                                            location.reload()
-                                        }, 1000);
-                                    }
-                                })
-                            }
-                            
-            })
-        }
-
-        function validate1(deleteId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You wan't to unblock this user!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'yes,unblocked!'
-            }).then((result) => {
-                   if (result.isConfirmed) {
-                                $.ajax({
-                                    url: '/admin/userManage/unblock/'+deleteId,
-                                    method: 'get',
-                                    success: (response) => {
-                                        Swal.fire({
-                                            title: 'unblocked!',
-                                            text: 'unblocked',
-                                            icon: 'success',
-                                            showConfirmButton: false
-                                        });
-                                        setTimeout(() => {
-                                            location.reload()
-                                        }, 1000);
-                                    }
-                                })
-                            }
-            })
-        }
-      </script>
-      
-      
+    </div>
+  </div>
 </body>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="/js/jquery-3.3.1.min.js"></script>
+<!-- https://jquery.com/download/ -->
+<script src="/jquery-ui-datepicker/jquery-ui.min.js"></script>
+<!-- https://jqueryui.com/download/ -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- https://getbootstrap.com/ -->
+
+
+
+
+<script>
+  function validate2(deleteId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You wan't to block this user!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'yes,blocked!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: '/admin/userManage/block/' + deleteId,
+          method: 'get',
+          success: (response) => {
+            Swal.fire({
+              title: 'blocked!',
+              text: 'blocked',
+              icon: 'success',
+              showConfirmButton: false
+            });
+            setTimeout(() => {
+              location.reload()
+            }, 1000);
+          }
+        })
+      }
+
+    })
+  }
+
+  function validate1(deleteId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You wan't to unblock this user!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'yes,unblocked!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: '/admin/userManage/unblock/' + deleteId,
+          method: 'get',
+          success: (response) => {
+            Swal.fire({
+              title: 'unblocked!',
+              text: 'unblocked',
+              icon: 'success',
+              showConfirmButton: false
+            });
+            setTimeout(() => {
+              location.reload()
+            }, 1000);
+          }
+        })
+      }
+    })
+  }
+</script>
+
+
 </html>

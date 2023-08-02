@@ -1,86 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Product</title>
-  <link rel="stylesheet" href="/assets/css/addproduct.css">
+  <!-- <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" /> -->
+  <title>Add Product - Dashboard HTML Template</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
+  <!-- https://fonts.google.com/specimen/Roboto -->
+  <link rel="stylesheet" href="/css/fontawesome.min.css" />
+  <!-- https://fontawesome.com/ -->
+  <link rel="stylesheet" href="/jquery-ui-datepicker/jquery-ui.min.css" type="text/css" />
+  <!-- http://api.jqueryui.com/datepicker/ -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <!-- https://getbootstrap.com/ -->
+  <link rel="stylesheet" href="/css/templatemo-style.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!--
+	Product Admin CSS Template
+	https://templatemo.com/tm-524-product-admin
+	-->
 </head>
+
 <body>
-  <div class="container">
-    <h1>Add Products</h1>
-    <form action="/admin/addProduct" method="POST" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="name">Product Name</label>
-        <input type="text" id="name" name="name" required>
+  <nav class="navbar navbar-expand-xl">
+    <div class="container h-100">
+      <a class="navbar-brand" href="index.html">
+        <h1 class="tm-site-title mb-0">Product Manage</h1>
+      </a>
+      <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <i class="fas fa-bars tm-nav-icon"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto h-100">
+          <li class="nav-item">
+            <a class="nav-link " href="/admin/adminHome">
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/userManage">
+              User Management
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/categoryManage">
+              Category Management
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/productManage">
+              Product Management
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <span>
+                More
+              </span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/admin/orderHistory">Order Management</a>
+              <a class="dropdown-item" href="/admin/coupons">Coupon Management</a>
+              <a class="dropdown-item" href="/admin/ads">Banner Management</a>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link d-block" href="/admin/logout">
+              <b>Logout</b>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" name="description" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="image">Image</label>
-        <input type="file" multiple id="image" name="image" accept=".jpg, .jpeg, .png" required>
-        <p id="imageValidationMessage" style="color: red;"></p>
-      </div>
-      <div class="form-group">
-        <label for="brand">Brand</label>
-        <input type="text" id="brand" name="brand" required>
-      </div>
-      <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" id="price" name="price" step="0.01" required>
-      </div>
-      <div class="form-group">
-        <label for="stock">Stock</label>
-        <input type="number" id="stock" name="stock" required>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-12">Category</label>
-        <div class="col-sm-12">
-          <select name="category" class="form-control form-control-line">
-            <% categoryData.forEach(element => { %>
-              <option value="<%= element._id %>">
-                <%= element.name %>
-              </option>
-            <% }); %>
-          </select>
+    </div>
+  </nav>
+  <div class="container tm-mt-big tm-mb-big">
+    <div class="row">
+      <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+        <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="tm-block-title d-inline-block">Add Product</h2>
+            </div>
+          </div>
+          <div class="row tm-edit-product-row">
+            <div class="col-xl-6 col-lg-6 col-md-12">
+              <form action="/admin/addProduct" method="post" class="tm-edit-product-form" enctype="multipart/form-data">
+                <div class="form-group mb-3">
+                  <label for="name">Product Name
+                  </label>
+                  <input id="name" name="name" type="text" class="form-control validate" required />
+                </div>
+                <div class="form-group mb-3">
+                  <label for="description">Description</label>
+                  <textarea class="form-control validate" id="description" name="description" rows="3" required></textarea>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="category">Category</label>
+                  <select class="custom-select tm-select-accounts" name="category" id="category">
+                    <% categoryData.forEach(element => { %>
+                      <option value="<%= element._id %>">
+                        <%= element.name %>
+                      </option>
+                    <% }); %>
+                  </select>
+                </div>
+                <div class="row">
+                  <div class="form-group mb-3 col-xs-12 col-sm-6">
+                    <label for="brand">Brand
+                    </label>
+                    <input id="brand" name="brand" type="text" class="form-control validate" required />
+                  </div>
+                  <div class="form-group mb-3 col-xs-12 col-sm-6">
+                    <label for="stock">Stocks
+                    </label>
+                    <input id="stock" name="stock" type="number" class="form-control validate" required />
+                  </div>
+                  <div class="form-group mb-3 col-xs-12 col-sm-6">
+                    <label for="price">Price
+                    </label>
+                    <input id="price" name="price" type="number" class="form-control validate" required />
+                  </div>
+                </div>
+
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+              <div class="tm-product-img-dummy mx-auto">
+                <i class="fas fa-cloud-upload-alt tm-upload-icon"></i>
+              </div>
+              <div class="custom-file mt-3 mb-3">
+                <input id="fileInput" type="file" style="display:none;" />
+                <input type="file"  class="btn btn-primary btn-block mx-auto" multiple id="image" name="image" accept=".jpg, .jpeg, .png" required>
+                <p id="imageValidationMessage" style="color: red;"></p>
+              </div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
+            </div>
+            </form>
+          </div>
         </div>
       </div>
-      <button type="submit">Create</button>
-    </form>
+    </div>
   </div>
+  <footer class="tm-footer row tm-mt-small">
+    <div class="col-12 font-weight-light">
+      <p class="text-center text-white mb-0 px-4 small">
+        Copyright &copy; <b>2018</b> All rights reserved.
 
+        Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
+      </p>
+    </div>
+  </footer>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <!-- https://jquery.com/download/ -->
+  <script src="/jquery-ui-datepicker/jquery-ui.min.js"></script>
+  <!-- https://jqueryui.com/download/ -->
+  <script src="/js/bootstrap.min.js"></script>
+  <!-- https://getbootstrap.com/ -->
   <script>
-    const addProductForm = document.querySelector('#addProductForm');
-    const imageInput = document.querySelector('#image');
-    const imageValidationMessage = document.querySelector('#imageValidationMessage');
+    $(function () {
+      $("#expire_date").datepicker();
+    });
+  </script>
 
-    addProductForm.addEventListener('submit', (event) => {
-      if (!validateImageFiles(imageInput)) {
+<script>
+  $(document).ready(function () {
+    const imageInput = $('#image');
+    const imageValidationMessage = $('#imageValidationMessage');
+    const nameInput = $('#name');
+    const descriptionInput = $('#description');
+    const priceInput = $('#price');
+  
+    $('#addProductForm').on('submit', function (event) {
+      // Check for valid image file types
+      if (!validateImageFiles(imageInput[0])) {
         event.preventDefault();
-        imageValidationMessage.textContent = 'Invalid image file type(s)';
+        imageValidationMessage.text('Invalid image file type(s)');
+      } else {
+        imageValidationMessage.text(''); // Clear the error message
+      }
+  
+      // Check for empty or whitespace-only name and description fields
+      if ($.trim(nameInput.val()) === '') {
+        event.preventDefault();
+        alert('Name field cannot be empty.');
+        return;
+      }
+  
+      if ($.trim(descriptionInput.val()) === '') {
+        event.preventDefault();
+        alert('Description field cannot be empty.');
+        return;
+      }
+      
+      // Check for whitespace-only name and description fields
+      if (!nameInput.val().trim()) {
+        event.preventDefault();
+        alert('Name field cannot contain only whitespace.');
+        return;
+      }
+  
+      if (!descriptionInput.val().trim()) {
+        event.preventDefault();
+        alert('Description field cannot contain only whitespace.');
+        return;
+      }
+  
+      // Check for a valid price (greater than 0)
+      const price = parseFloat(priceInput.val());
+      if (isNaN(price) || price <= 0) {
+        event.preventDefault();
+        alert('Price must be a valid number greater than 0.');
       }
     });
-
+  
+    // Clear the error message when the image input value changes
+    imageInput.on('change', function () {
+      imageValidationMessage.text('');
+    });
+  
     function validateImageFiles(input) {
       const files = input.files;
       const allowedTypes = ['image/jpeg', 'image/png'];
-
+  
       for (const file of files) {
         if (!allowedTypes.includes(file.type)) {
           return false; // Invalid file type found
         }
       }
-
+  
       return true; // All files pass validation
     }
-  </script>
+  });
+</script>
 
 
 </body>
+
 </html>

@@ -1,130 +1,236 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>User Order History</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f7f7f7;
-      }
+<head>
+  <%- include('../layouts/admin/header.ejs') %>
+  <title>User Order History</title>
+  <h1 class="heading">Order History</h1>
 
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-      }
+  <%- include('../layouts/admin/nav.ejs') %>
 
-      .card {
-        background-color: #fff;
-        margin-bottom: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 
-      .card-header {
-        background-color: #eaeaea;
-        padding: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-        font-weight: bold;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-      }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-      .order-details {
-        padding: 20px;
-      }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #4e657a;
+    }
 
-      .order-info {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-      }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #4e657a;
+    }
 
-      .order-info p {
-        margin: 0;
-        font-size: 14px;
-        color: #555;
-      }
+    .heading {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
 
-      .order-info .total-price {
-        font-weight: bold;
-      }
+    .order-card {
+      background-color: #fff;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
 
-      .user-details {
-        margin-top: 20px;
-      }
+    .order-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-      .user-info p {
-        margin: 0;
-        font-size: 14px;
-        color: #888;
-      }
+    .order-card__header h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #333;
+    }
 
-      .product-list {
-        margin-top: 20px;
-      }
+    .order-card__details {
+      margin-bottom: 20px;
+    }
 
-      .product {
-        margin-bottom: 10px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #ccc;
-      }
+    .order-card__info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
 
-      .product p {
-        margin: 0;
-        font-size: 14px;
-        color: #555;
-      }
+    .order-card__info p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
 
-      .no-orders {
-        text-align: center;
-        margin-top: 20px;
-        color: #888;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Orders</h1>
+    .order-card__info .total-price {
+      font-weight: bold;
+    }
 
-      <% if (orders.length > 0) { %>
-        <% orders.forEach(function (order) { %>
-          <div class="card">
-            <div class="card-header">
-              Order Details
+    .order-card__user-details {
+      margin-top: 20px;
+    }
+
+    .order-card__user-info p {
+      margin: 0;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .order-card__product-list {
+      margin-top: 20px;
+    }
+
+    .order-card__product {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .order-card__product p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .no-orders {
+      text-align: center;
+      margin-top: 20px;
+      color: #888;
+    }
+
+    .status-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .status-dropdown__button {
+      background-color: #ddd;
+      color: #333;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .status-dropdown__content {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      display: none;
+      min-width: 100%;
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .status-dropdown__item {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .status-dropdown__item:hover {
+      background-color: #f2f2f2;
+    }
+    
+  </style>
+</head>
+<body style="background-color: #4e657a;">
+  <div class="container">
+
+    <br>
+    <br>
+
+    <% if (orders.length > 0) { %>
+      <% orders.forEach(function (order) { %>
+        <div class="order-card">
+          <div class="order-card__header">
+            <h2>Order Details</h2>
+            <p>Date: <%= order.date.toDateString() %></p>
+          </div>
+          <div class="order-card__details">
+            <div class="order-card__info">
+             <div>
+              <p>Status
+                <select id="statusDropdown<%= order._id %>" class="p-1" aria-label="Default select example" onchange="updateOrderStatus('<%= order._id %>')">
+                  <option <%= order.status === 'processing' ? 'selected' : '' %> value="processing">Processing</option>
+                  <option <%= order.status === 'pending' ? 'selected' : '' %> value="pending">Pending</option>
+                  <option <%= order.status === 'delivered' ? 'selected' : '' %> value="delivered">Delivered</option>
+                </select>
+              </p>
+              
+              
+             </div>
+              <p>Payment Method: <%= order.paymentMethod %></p>
+              <p class="total-price">Total Price: <%= order.productDt.totalprice %></p>
             </div>
-            <div class="order-details">
-              <div class="order-info">
-                <p>Date: <%= order.date.toDateString() %></p>
-                <p>Status: <%= order.status %></p>
+            <div class="order-card__user-details">
+              <div class="order-card__user-info">
+                <p>User Name: <%= user.name %></p>
+                <p>User Address: <%= order.address %></p>
               </div>
-              <div class="order-info">
-                <p>Payment Method: <%= order.paymentMethod %></p>
-                <p class="total-price">Total Price: <%= order.productDt.totalprice %></p>
-              </div>
-              <div class="user-details">
-                <div class="user-info">
-                  <p>User Name: <%= order.userId.name %></p>
-                  <p>User Address: <%= order.address %></p>
+            </div>
+            <div class="order-card__product-list">
+              <% order.productDt.items.forEach(function (item) { %>
+                <div class="order-card__product">
+                  <p>Product: <%= item.productId.name %></p>
+                  <p>Quantity: <%= item.qty %></p>
                 </div>
-              </div>
-              <div class="product-list">
-                <% order.productDt.items.forEach(function (item) { %>
-                  <div class="product">
-                    <p>Product: <%= item.productId.name %></p>
-                    <p>Quantity: <%= item.qty %></p>
-                  </div>
-                <% }); %>
-              </div>
+              <% }); %>
             </div>
           </div>
-        <% }); %>
-      <% } else { %>
-        <p class="no-orders">No orders found.</p>
-      <% } %>
-    </div>
-  </body>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p class="no-orders">No orders found.</p>
+    <% } %>
+  </div>
+
+  <%- include('../layouts/admin/footer.ejs') %>
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js" integrity="sha512-bkRnY+Yd8OOKaLeSQ4ywl+eeJKIbJ5TtBvyWwM2OnsV1qeIZb2yi7E4h2P6XVcAMz3ldrTKAXk/lC5vvZnDkZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.js" integrity="sha512-71NOmf+URzhLUTnRw76rkHDDUZZ9HJzF+CVVej3qrCaUnWG220eW3riAuhozwTrn0RpLnhj5aP0SVn5u0Crw/w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ 
+
+
+  <script>
+  function updateOrderStatus(orderId) {
+    const statusDropdown = document.getElementById(`statusDropdown${orderId}`);
+    const selectedStatus = statusDropdown.value;
+  
+    console.log(orderId,'90');
+
+    //  Ajax call to update the order status
+
+    console.log(selectedStatus,'899');
+    $.ajax({
+      url: `/admin/updateOrder/${orderId}`,
+      method: 'POST',
+      encoded:true,
+      data:{ status: selectedStatus },
+      success: function (data) {
+        console.log('Order status updated successfully:', data);
+      },
+      error: function (error) {
+        console.error('Error updating order status:', error);
+      },
+    });
+  }
+  </script>
+
+</body>
 </html>
