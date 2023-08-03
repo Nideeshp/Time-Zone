@@ -466,6 +466,8 @@ registerUser: async (req, res) => {
       next(error);
     }
   },
+
+  
   orderview: async (req, res, next) => {
     try {
       if (req.session.user) {

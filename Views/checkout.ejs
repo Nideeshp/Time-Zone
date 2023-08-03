@@ -134,11 +134,15 @@
                 </div>
               </div>
 
+
               <div class="col-lg-4">
                 <div class="order_box">
                   <h2>Your Orders</h2>
                   <ul class="list">
-                    <% products.forEach((product)=> { %>
+
+                    <!-- ... your existing code ... -->
+
+                    <% products.forEach((product) => { %>
                       <li>
                         <a href="#">Name<span class="last">
                             <%= product.name %>
@@ -149,21 +153,38 @@
                             <%= product.brand %>
                           </span></a>
                       </li>
+                      <!-- Display the offer price if available, otherwise show the regular price -->
+                      <% if (product.offerPrice) { %>
+                        <li>
+                          <a href="#">Price<span class="last">
+                              <%= product.offerPrice %>
+                            </span></a>
+                        </li>
+                      <% } else { %>
+                        <li>
+                          <a href="#">Price<span class="last">
+                              <%= product.price %>
+                            </span></a>
+                        </li>
+                      <% } %>
                       <li>
-                        <a href="#">Price<span class="last">
-                            <%= product.price %>
+                        <!-- Display total price for each product -->
+                        <a href="#">Total<span class="last">
+                            <%= product.total %>
                           </span></a>
                       </li>
                       <br>
                       <br>
-                      <% }); %>
+                    <% }); %>
+                    
+                            <!-- ... rest of your code ... -->
+
                   </ul>
                   <ul class="list list_2">
-
                     <br>
                     <li>
-                      <a href="#">Total<span>
-                          <%= total %>
+                      <a href="#">Subtotal<span>
+                          <%= subtotal %>
                         </span>
                       </a>
                     </li>
@@ -171,7 +192,7 @@
                   <br>
                   <br>
                   <!-- Add a section to display the available coupons -->
-                  <% if (typeof coupondetails !=='undefined' ) { %>
+                  <% if (coupondetails.length> 0) { %>
                     <div class="coupon_box">
                       <h2>Apply Coupon</h2>
                       <ul class="coupon-list">
@@ -180,9 +201,9 @@
                             <span>
                               <%= coupon.code %>
                             </span>
-                            <% if (coupon.offer> 0) { %>
+                            <% if (coupon.discount> 0) { %>
                               <span>
-                                <%= coupon.offer %>% off
+                                <%= coupon.discount %>% off
                               </span>
                               <% } %>
                                 <% if (coupon.maxDiscount> 0) { %>
@@ -210,7 +231,6 @@
                         </form>
                       </div>
 
-
                       <div id="selected-items"></div>
 
                       <br>
@@ -231,10 +251,6 @@
                           <div class="check"></div>
                         </div>
                       </div>
-
-
-
-
                 </div>
                 <br>
                 <br>
@@ -242,6 +258,8 @@
                   <button type="submit" class="btn_3" id="c-button" style="width: 300px;">Proceed to Payment</button>
                 </div>
               </div>
+
+
             </div>
           </div>
         </div>
@@ -395,92 +413,92 @@
 
 
   <script>
-   $("#checkout-form").submit((e) => {
-  e.preventDefault();
+    $("#checkout-form").submit((e) => {
+      e.preventDefault();
 
-  $.ajax({
-    url: '/placeOrder',
-    method: 'post',
-    data: $('#checkout-form').serialize(),
-    success: (response) => {
-      if (response.cError) {
-        alert(response.cError);
-        location.reload();
-      } else if (response.error) {
-        alert(response.error);
-      } else {
-        if (response.online) {
-          razorpayPayment(response.order);
-        } else {
-          setTimeout(() => {
+      $.ajax({
+        url: '/placeOrder',
+        method: 'post',
+        data: $('#checkout-form').serialize(),
+        success: (response) => {
+          if (response.cError) {
+            alert(response.cError);
             location.reload();
-          }, 100);
-          window.location.href = '/success';
+          } else if (response.error) {
+            alert(response.error);
+          } else {
+            if (response.online) {
+              razorpayPayment(response.order);
+            } else {
+              setTimeout(() => {
+                location.reload();
+              }, 100);
+              window.location.href = '/success';
+            }
+          }
         }
-      }
+      });
+    });
+
+
+    function razorpayPayment(order) {
+
+      var options = {
+        key: "rzp_test_RyOx6mcc2yYfHD", // Your Razorpay Key ID
+        amount: order.productDt.totalprice * 100, // Amount is in paisa (currency subunits)
+        currency: "INR",
+        name: "TIME ZONE", // Your business name
+        description: "Test Transaction",
+        image: "https://example.com/your_logo",
+        order_id: order.orderId, // The order ID obtained from the server response
+        handler: function (response) {
+          alert('Your order has been successful');
+          verifyPayment(response, order);
+        },
+        prefill: {
+          name: "Gaurav Kumar", // Your customer's name
+          email: "gaurav.kumar@example.com",
+          contact: "9000090000"
+        },
+        notes: {
+          address: "Razorpay Corporate Office"
+        },
+        theme: {
+          color: "#3399cc"
+        }
+      };
+
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
     }
-  });
-});
-
-
-  function razorpayPayment(order) {
-
-    var options = {
-      key: "rzp_test_RyOx6mcc2yYfHD", // Your Razorpay Key ID
-      amount: order.productDt.totalprice * 100, // Amount is in paisa (currency subunits)
-      currency: "INR",
-      name: "TIME ZONE", // Your business name
-      description: "Test Transaction",
-      image: "https://example.com/your_logo",
-      order_id: order.orderId, // The order ID obtained from the server response
-      handler: function (response) {
-        alert('Your order has been successful');
-        verifyPayment(response, order);
-      },
-      prefill: {
-        name: "Gaurav Kumar", // Your customer's name
-        email: "gaurav.kumar@example.com",
-        contact: "9000090000"
-      },
-      notes: {
-        address: "Razorpay Corporate Office"
-      },
-      theme: {
-        color: "#3399cc"
-      }
-    };
-
-    var rzp1 = new Razorpay(options);
-    rzp1.open();
-  }
 
 
 
 
-  function verifyPayment(response, order) {
-  const payment = {
-    razorpay_order_id: response.razorpay_order_id,
-    razorpay_payment_id: response.razorpay_payment_id,
-    razorpay_signature: response.razorpay_signature,
-  };
+    function verifyPayment(response, order) {
+      const payment = {
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+      };
 
-  $.ajax({
-    url: "/verifyPayment-online",
-    method: "post",
-    data: {
-      payment: payment,
-      order: order,
-    },
-    success: (response) => {
-      if (response.success) {
-        location.href = '/success'; // Redirect to the success page on successful payment
-      } else {
-        alert('Payment failed'); // Show an error message if payment verification fails
-        location.href = '/home'; // Redirect to the homepage or any error page on payment failure
-      }
-    },
-  });
-}
+      $.ajax({
+        url: "/verifyPayment-online",
+        method: "post",
+        data: {
+          payment: payment,
+          order: order,
+        },
+        success: (response) => {
+          if (response.success) {
+            location.href = '/success'; // Redirect to the success page on successful payment
+          } else {
+            alert('Payment failed'); // Show an error message if payment verification fails
+            location.href = '/home'; // Redirect to the homepage or any error page on payment failure
+          }
+        },
+      });
+    }
 
 
   </script>

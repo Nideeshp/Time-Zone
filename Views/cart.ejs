@@ -125,6 +125,8 @@
                           <td>
                             <a href="#" class="genric-btn danger circle" id="delete" onclick="deleteCart('<%= product.productId._id %>', '<%= product.quantity %>', '<%= product.productId.price %>', '<%= total %>')">Remove</a>
                           </td>
+
+
                           <td class="quantity">
                             <div class="input-group">
                               <div class="input-group-prepend">
@@ -137,12 +139,11 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="changeQty('<%= userId %>', '<%= product.productId._id %>', 1, '<%= product.price %>')">+</button>
                               </div>
                             </div>
-                            
-                            
-                            
                           </td>
+
+                          
                           <td>
-                            <h5><%= product.price %></h5>
+                            <h5><%= total %></h5>
                           </td>
                         </tr>
                       <% } %>

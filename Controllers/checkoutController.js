@@ -10,22 +10,21 @@ var instance = new Razorpay({
   key_id: "rzp_test_RyOx6mcc2yYfHD",
   key_secret: "dwDMlR7Le6KOCvNpqIJX6yQP",
 });
-
-// Checkout view
 const checkoutView = async (req, res, next) => {
   try {
     if (req.session.user) {
       const currentDate = Date.now();
       const coupondetails = await Coupon.find({
         expirationDate: { $gte: currentDate },
-        userUsed: { $not: { $eq: req.session.user._id } },
+        userUsed: { $ne: req.session.user._id },
       });
 
-      const name = req.session.user.name;
-      const userdetails = await User.findOne({ name });
-      const cart = await Cart.findOne({ user: userdetails._id }).populate(
-        "product.productId"
-      );
+      const userdetails = await User.findOne({ _id: req.session.user._id });
+
+      const cart = await Cart.findOne({ user: userdetails._id }).populate({
+        path: "product.productId",
+        select: "-_id name brand price category image offer", // Include the 'offer' property in the populated product object
+      });
 
       if (!cart || cart.product.length === 0) {
         // Render a page indicating an empty cart
@@ -34,17 +33,30 @@ const checkoutView = async (req, res, next) => {
 
       const products = cart.product.map((item) => {
         const product = item.productId;
+        let price = product.price;
+        let offerPrice = null;
+
+        if (product.offer) {
+          offerPrice = Math.round(price - (price * product.offer / 100));
+        }
+
+        // Calculate the total price for each product based on its quantity and offer (if applicable)
+        const total = item.quantity * (offerPrice || price);
+
         return {
           name: product.name,
           brand: product.brand,
-          price: product.price,
+          price,
+          offerPrice, // Pass the offerPrice to the view
+          total,
           category: product.category,
         };
       });
 
       const subtotal = cart.product.reduce((acc, item) => {
         const product = item.productId;
-        return acc + product.price * item.quantity;
+        const price = product.offer ? Math.round(product.price - (product.price * product.offer / 100)) : product.price;
+        return acc + price * item.quantity;
       }, 0);
 
       const total = subtotal;
@@ -87,13 +99,9 @@ const placeOrder = async (req, res, next) => {
       const product = item.productId;
       return acc + product.price * item.quantity;
     }, 0);
-    let totalprice= 0
-    const discount = req.body.couponDiscount || 0
-    if( discount){
-      totalprice = subtotal- discount
-    }else{
-      totalprice = subtotal;
-    }
+    
+    const discount = req.body.couponDiscount || 0;
+    const totalprice = discount ? subtotal - discount : subtotal;
 
     // Create an order
     const order = new Order({
@@ -122,14 +130,12 @@ const placeOrder = async (req, res, next) => {
       res.redirect("/success");
     } else {
       // Send the order ID to the frontend for online payment
-      res.json({ online: true, order });
+      res.json({ online: true, order, totalprice });
     }
   } catch (error) {
     next(error);
   }
 };
-
-
 
 const userOrderView = async (req, res, next) => {
   try {

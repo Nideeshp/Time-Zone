@@ -10,19 +10,40 @@ const viewCart = async (req, res) => {
       const user = await User.findOne({ _id: req.session.user });
       const id = user._id;
       const cart = await Cart.findOne({ user: id });
+
       if (cart) {
-        const cartData = await Cart.findOne({ user: id })
-          .populate("product.productId")
-          .lean();
+        const cartData = await Cart.findOne({ user: id }).populate("product.productId").lean();
+
         if (cartData) {
           if (cartData.product.length) {
-            const Total = cartData.entirePrice;
+            // Calculate the offer price if the product has an offer
+            const cartProducts = cartData.product;
+            let cartTotal = 0;
+            let cartSubtotal = 0;
+            for (const product of cartProducts) {
+              const productPrice = product.productId.price;
+              const productQuantity = product.quantity;
+
+              // Check if the product has an offer
+              if (product.productId.offer) {
+                const offerPrice = Math.round(productPrice - (productPrice * product.productId.offer / 100));
+                product.totalPrice = offerPrice * productQuantity;
+                product.offerPrice = offerPrice; // Store the offer price in the product object
+                cartTotal += product.totalPrice;
+                cartSubtotal += offerPrice * productQuantity;
+              } else {
+                product.totalPrice = productPrice * productQuantity;
+                cartTotal += product.totalPrice;
+                cartSubtotal += productPrice * productQuantity;
+              }
+            }
+
             res.render("cart", {
               user: req.session.name,
-              data: cartData.product,
+              data: cartProducts,
               userId: id,
-              total: Total,
-              
+              total: cartTotal,
+              subtotal: cartSubtotal,
             });
           } else {
             res.render("cart", { user: req.session.name, data2: "hi" });
@@ -43,8 +64,6 @@ const viewCart = async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 };
-
-
 
 const addtoCart = async (req, res) => {
   try {
@@ -132,38 +151,26 @@ const deleteCart = async (req, res) => {
     res.json({ success: false });
   }
 };
-//change quantity
 const changeQnty = async (req, res) => {
   try {
     const { prodId, count, price, qnty } = req.body;
     const userId = req.session.user._id;
     const existingCart = await Cart.findOne({ user: userId });
     const found = await Product.findOne({ _id: prodId });
-    if (found.stock > qnty || count === -1) {
+
+    if (found.stock >= qnty || count === -1) {
+      // Update the product quantity in the cart
       await Cart.updateOne(
         { user: userId, "product.productId": prodId },
         { $inc: { "product.$.quantity": count } }
       );
 
-      if (count === 1) {
-        await Cart.updateOne(
-          { user: userId },
-          {
-            $set: {
-              entirePrice: existingCart.entirePrice + found.price * count,
-            },
-          }
-        );
-      } else {
-        await Cart.updateOne(
-          { user: userId },
-          {
-            $set: {
-              entirePrice: existingCart.entirePrice + found.price * count,
-            },
-          }
-        );
-      }
+      // Update the entirePrice in the cart based on the product price and quantity change
+      const updatedProductPrice = found.price * count;
+      await Cart.updateOne(
+        { user: userId },
+        { $inc: { entirePrice: updatedProductPrice - price * qnty } }
+      );
 
       const cartItem = await Cart.findOne(
         { user: userId, "product.productId": prodId },
@@ -172,11 +179,23 @@ const changeQnty = async (req, res) => {
 
       const updatedQuantity = cartItem.product[0].quantity;
       const productTotalPrice = price * updatedQuantity;
-      await Cart.updateOne(
-        { user: userId, "product.productId": prodId },
-        { $set: { "product.$.totalPrice": productTotalPrice } }
-      );
 
+      // Calculate the offer price if the product has an offer
+      if (found.offer) {
+        const offerPrice = Math.round(price - (price * found.offer / 100));
+        await Cart.updateOne(
+          { user: userId, "product.productId": prodId },
+          { $set: { "product.$.totalPrice": offerPrice * updatedQuantity, "product.$.offerPrice": offerPrice } }
+        );
+      } else {
+        // If no offer, use the original price
+        await Cart.updateOne(
+          { user: userId, "product.productId": prodId },
+          { $set: { "product.$.totalPrice": productTotalPrice } }
+        );
+      }
+
+      // Update the cart total price for the user
       const cart = await Cart.findOne({ user: userId }).lean();
       let sum = 0;
       for (let i = 0; i < cart.product.length; i++) {
@@ -192,6 +211,7 @@ const changeQnty = async (req, res) => {
     res.render("404", { message: error.message });
   }
 };
+
 
 module.exports = {
   viewCart,
