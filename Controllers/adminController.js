@@ -7,17 +7,21 @@ const Coupon= require("../models/coupon")
 const moment= require('moment')
 const User= require('../models/user')
 
+
+//load login
 const loadLogin = async (req, res) => {
   try {
     if (req.session.admin) {
       res.redirect("/admin/adminHome");
     }
-    res.render("admin/adminLogin");
+    res.render("admin/adminlogin");
   } catch (error) {
     console.log(error.message);
   }
 };
 
+
+//logout
 const logout = async (req, res, next) => {
   try {
     req.session.admin = false;
@@ -32,6 +36,8 @@ const logout = async (req, res, next) => {
   }
 };
 
+
+//verifylogin
 const verifyLogin = async (req, res) => {
   try {
     const email = req.body.email;
@@ -40,7 +46,7 @@ const verifyLogin = async (req, res) => {
     const adminPass = process.env.ADMIN_PASSWORD;
 
     if (email !== adminEmail && password !== adminPass) {
-      res.render("admin/adminLogin", {
+      res.render("admin/adminlogin", {
         message: "Email and password is incorrect",
       });
     } else {
@@ -53,6 +59,9 @@ const verifyLogin = async (req, res) => {
 };
 
 
+
+
+//loaddashboard
 const loadDashboard = async (req, res) => {
   try {
     const orders = await Order.find({}).sort({ date: -1 });
@@ -105,6 +114,8 @@ const usersForTheLastWeek= await User.find({date:{$gte:lastWeek}})
 const lessQuantityProducts = await Product.find({ stock: { $lt: 50 } })
 const ativeCoupons = await Coupon.find({ expirationDate: { $gt: new Date() } })
 
+
+//sales chart
 const salesChart = await Order.aggregate([
   {
     $match: {
@@ -145,7 +156,7 @@ const cancelled= await Order.find({status:"cancelled"}).count()
 const UPI = await Order.find({paymentMethod:"ONLINE",status:"delivered"}).count()
 const COD= await Order.find({paymentMethod:"COD",status:"delivered"}).count()
 
-    res.render("admin/adminHome", {
+    res.render("admin/adminhome", {
        orders, users,
        categoryData:categoryData,
        productData:productData,salesCount,weeklyRevenue,
@@ -162,6 +173,8 @@ const COD= await Order.find({paymentMethod:"COD",status:"delivered"}).count()
 
 
 
+
+//create admin
 const createAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -173,6 +186,8 @@ const createAdmin = async (req, res) => {
   }
 };
 
+
+//user block checked
 const checkBlocked = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
@@ -189,6 +204,8 @@ const checkBlocked = async (req, res, next) => {
   }
 };
 
+
+//block user
 const blockUser = async (req, res) => {
   const userId = req.params.id;
 
@@ -200,6 +217,9 @@ const blockUser = async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+
+//unblock user
 
 const unblockUser = async (req, res) => {
   const userId = req.params.id;
@@ -213,6 +233,8 @@ const unblockUser = async (req, res) => {
   }
 };
 
+
+//update order
 const updateOrder = async (req, res) => {
   try {
     const orderId = req.params.id;
@@ -233,6 +255,8 @@ const updateOrder = async (req, res) => {
   }
 };
 
+
+//sales report
 const salesReport = async (req,res,next)=>{
   try {
     const existingDate= new Date(req.body.to)

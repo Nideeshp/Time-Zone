@@ -74,9 +74,6 @@ admin_route.post('/softdelete/:id',auth.isLogin,productController.softDelete)
 //show order 
 admin_route.get('/orderHistory',auth.isLogin,checkoutController.userOrderView)
 
-
-
-
 //Coupons
 admin_route.get('/coupons',auth.isLogin,couponController.loadCoupon)
 
@@ -109,7 +106,7 @@ admin_route.post('/posteditAdd/:id',auth.isLogin,upload.array('image',1),bannerC
 
 admin_route.delete('/deleteadd/:id',auth.isLogin,bannerController.deleteAdd);
 
-
+//update order
 admin_route.post('/updateOrder/:id',auth.isLogin,adminController.updateOrder)
 
 

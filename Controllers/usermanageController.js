@@ -3,11 +3,11 @@ const bcrypt=require('bcryptjs')
 const Admin=require('../models/admin');
 const Category = require('../models/category');
 
-
+//user manage 
 const loadUserMange=async(req,res)=>{
     try {
         const userData=await User.find()
-        res.render('admin/userManage',{userData})
+        res.render('admin/usermanage',{userData})
     } catch (error) {
         console.log(error.message)
     }

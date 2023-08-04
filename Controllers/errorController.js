@@ -5,7 +5,7 @@ const bcrypt=require('bcryptjs')
 const Admin=require('../models/admin');
 const Category = require('../models/category');
 
-
+//load error controller
 const errorController=(req,res,next)=>{
     res.status(404).render('404',{
         pageTitle:'page not found',

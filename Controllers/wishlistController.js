@@ -3,7 +3,7 @@ const Product = require('../models/product');
 const Category = require('../models/category');
 
 
-
+//load wishlist
 const loadwishlist = async (req, res,next) => {
   try {
 
@@ -29,16 +29,7 @@ const loadwishlist = async (req, res,next) => {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
+//add to wishlist
   const addToWishlist = async (req, res, next) => {
     try {
       if (req.session.user) {
@@ -69,7 +60,7 @@ const loadwishlist = async (req, res,next) => {
   }
   
   
-  
+  //delete wishlist
   const removeWishlist = async (req, res, next) => {
     try {
       if (req.session.user) {

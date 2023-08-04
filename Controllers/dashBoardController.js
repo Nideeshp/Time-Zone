@@ -3,6 +3,8 @@ const Product = require("../models/product");
 const Banner = require("../models/banner");
 const Coupon = require("../models/coupon");
 
+
+//dashboard view
 module.exports = {
   dashboardView: async (req, res) => {
     if(req.session.loggedIn) {

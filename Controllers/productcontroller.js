@@ -9,12 +9,10 @@ const path=require('path')
 
 
 // View for the product page
-
-
 const loadProduct = async (req, res) => {
   try {
     const products = await Product.find().populate('category')
-    res.render('admin/productManage', { products: products });
+    res.render('admin/productmanage', { products: products });
   } catch (error) {
     console.log(error.message);
   }
@@ -25,12 +23,14 @@ const loadProduct = async (req, res) => {
 const loadaddProduct = async (req, res) => {
   try {
     const categoryData=await Category.find({});
-    res.render('admin/addProduct',{categoryData:categoryData});
+    res.render('admin/addproduct',{categoryData:categoryData});
   } catch (error) {
     console.log(error.message);
   }
 };
 
+
+//insert product
 
 const insertProduct = async (req, res, next) => {
   try {
@@ -110,55 +110,59 @@ const deleteProduct=async(req,res,next)=>{
   }
 }
 
-
+//load edit product
 const loadeditProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
     const product = await Product.findOne({ _id: id }).populate('category').exec();
     const catData = await Category.find({});
     const categoryData = await Category.find({});
-    res.render('admin/editProduct', { product: product, categoryData: categoryData, catData: catData });
+    res.render('admin/editproduct', { product: product, categoryData: categoryData, catData: catData });
   } catch (error) {
     next(error);
   }
 };
 
 
-
+//edit product
 const editProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
     const { name, price, description, category, stock, brand, offer } = req.body;
-    await Product.updateOne({ _id: id }, {
-      $set: {
-        name: name,
-        price: price,
-        description: description,
-        category: category,
-        stock: stock,
-        brand: brand,
-        offer: offer
+    const product = await Product.findOne({ _id: id });
+
+    // Check if the offer has changed
+    if (product.offer !== offer) {
+      // Update the offer and calculate the new offer price
+      product.offer = offer;
+      if (offer > 0) {
+        const newPrice = Math.round(price - (price * offer / 100));
+        product.offerPrice = newPrice;
+      } else {
+        // If the offer is 0 or not provided, remove the offerPrice
+        product.offerPrice = undefined;
       }
-    }).then((resp) => console.log(resp))
-    // Handle the offer logic
-    const product=await Product.findOne({})
-    if(product.offerApplied){
-      let newPrice = price;
-    if (offer > 0) {
-      newPrice = Math.round(price - (price * offer / 100));
-      await Product.updateOne({_id:id},{
-        $set:{
-          offerPrice:newPrice,
-        }
-      })
     }
-    }
+
+    // Update other fields
+    product.name = name;
+    product.price = price;
+    product.description = description;
+    product.category = category;
+    product.stock = stock;
+    product.brand = brand;
+
+    // Save the updated product
+    await product.save();
+
     res.redirect('/admin/productManage');
   } catch (error) {
     next(error);
   }
 };
 
+
+//load edit image
 const loadEditImage = async (req, res, next) => {
   try {
     const imagedata = req.files;
@@ -195,7 +199,7 @@ const deleteProductImage = async (req, res, next) => {
   }
 };
 
-
+//soft delete
 const softDelete = async (req, res, next) => {
   try {
     const productId = req.params.id;
@@ -206,7 +210,7 @@ const softDelete = async (req, res, next) => {
     if (updatedProduct) {
       res.redirect('/admin/productManage');
     } else {
-      res.render('admin/productManage', { message: 'Failed to update product' });
+      res.render('admin/productmanage', { message: 'Failed to update product' });
     }
   } catch (error) {
     next(error);

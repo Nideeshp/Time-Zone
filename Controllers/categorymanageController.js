@@ -11,7 +11,7 @@ const Category = require("../models/category");
 const loadcategoryManage = async (req, res) => {
   try {
     const categories = await Category.find();
-    res.render("admin/categoryManage", { categories, message: "" });
+    res.render("admin/categorymanage", { categories, message: "" });
   } catch (error) {
     res.status(500).send('Internal Server Error');
   }
@@ -45,7 +45,7 @@ const loadaddCategory = async (req, res, next) => {
     if (existingCategory) {
       const categories = await Category.find();
       const message = "Category already exists";
-      return res.render("admin/categoryManage", { categories, message });
+      return res.render("admin/categorymanage", { categories, message });
     }
 
     // Create a new category
@@ -55,11 +55,11 @@ const loadaddCategory = async (req, res, next) => {
     if (savedCategory) {
       const categories = await Category.find();
       const message = "Category added";
-      return res.render("admin/categoryManage", { categories, message });
+      return res.render("admin/categorymanage", { categories, message });
     } else {
       const categories = await Category.find();
       const message = "Action failed";
-      return res.render("admin/categoryManage", { categories, message });
+      return res.render("admin/categorymanage", { categories, message });
     }
   } catch (error) {
     next(error);
@@ -90,7 +90,7 @@ const loadeditCategory = async (req, res, next) => {
 
 
 
-
+//edited category
 const editedCategory = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -103,7 +103,7 @@ const editedCategory = async (req, res, next) => {
     );
 
     if (updatedCategory) {
-      res.redirect("/admin/categoryManage");
+      res.redirect("/admin/categorymanage");
     } else {
       res.render("admin/editcategory", {
         message: "Failed to update category",

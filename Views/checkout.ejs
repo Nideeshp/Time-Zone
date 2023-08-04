@@ -142,7 +142,7 @@
 
                     <!-- ... your existing code ... -->
 
-                    <% products.forEach((product) => { %>
+                    <% products.forEach((product)=> { %>
                       <li>
                         <a href="#">Name<span class="last">
                             <%= product.name %>
@@ -160,24 +160,24 @@
                               <%= product.offerPrice %>
                             </span></a>
                         </li>
-                      <% } else { %>
-                        <li>
-                          <a href="#">Price<span class="last">
-                              <%= product.price %>
-                            </span></a>
-                        </li>
-                      <% } %>
-                      <li>
-                        <!-- Display total price for each product -->
-                        <a href="#">Total<span class="last">
-                            <%= product.total %>
-                          </span></a>
-                      </li>
-                      <br>
-                      <br>
-                    <% }); %>
-                    
-                            <!-- ... rest of your code ... -->
+                        <% } else { %>
+                          <li>
+                            <a href="#">Price<span class="last">
+                                <%= product.price %>
+                              </span></a>
+                          </li>
+                          <% } %>
+                            <li>
+                              <!-- Display total price for each product -->
+                              <a href="#">Total<span class="last">
+                                  <%= product.total %>
+                                </span></a>
+                            </li>
+                            <br>
+                            <br>
+                            <% }); %>
+
+                              <!-- ... rest of your code ... -->
 
                   </ul>
                   <ul class="list list_2">

@@ -6,10 +6,15 @@ const Order = require("../models/order");
 const Coupon = require("../models/coupon");
 const Razorpay = require("razorpay");
 
+
+//razorpay instance
 var instance = new Razorpay({
   key_id: "rzp_test_RyOx6mcc2yYfHD",
   key_secret: "dwDMlR7Le6KOCvNpqIJX6yQP",
 });
+
+
+//checkout view
 const checkoutView = async (req, res, next) => {
   try {
     if (req.session.user) {
@@ -76,12 +81,13 @@ const checkoutView = async (req, res, next) => {
   }
 };
 
+
+
+//place order
 const placeOrder = async (req, res, next) => {
   try {
     const userId = req.session.user._id;
-    const cart = await Cart.findOne({ user: userId }).populate(
-      "product.productId"
-    );
+    const cart = await Cart.findOne({ user: userId }).populate("product.productId");
     if (!cart?.product?.length) {
       return res.json({ cError: "Cart is empty" });
     }
@@ -97,9 +103,9 @@ const placeOrder = async (req, res, next) => {
     // Calculate total price and discount price
     const subtotal = cart.product.reduce((acc, item) => {
       const product = item.productId;
-      return acc + product.price * item.quantity;
+      return acc + (product.offerPrice || product.price) * item.quantity;
     }, 0);
-    
+
     const discount = req.body.couponDiscount || 0;
     const totalprice = discount ? subtotal - discount : subtotal;
 
@@ -137,6 +143,8 @@ const placeOrder = async (req, res, next) => {
   }
 };
 
+
+//user order view
 const userOrderView = async (req, res, next) => {
   try {
     if (req.session.user) {
@@ -145,7 +153,7 @@ const userOrderView = async (req, res, next) => {
       const orders = await Order.find({ userId })
         .sort({ date: -1 })
         .populate("productDt.items.productId");
-      res.render("admin/userOrder", {
+      res.render("admin/userorder", {
         user,
         orders,
       });
@@ -157,6 +165,8 @@ const userOrderView = async (req, res, next) => {
   }
 };
 
+//load success page
+
 const successPage = async (req, res, next) => {
   try {
     res.render("cod");
@@ -165,6 +175,10 @@ const successPage = async (req, res, next) => {
   }
 };
 
+
+
+
+//verify payment
 const verifyPayment = async (req, res) => {
   try {
     const User = require("./User");
@@ -199,7 +213,6 @@ const verifyPayment = async (req, res) => {
 
     const subtotal = cartData[0].total;
     const total = req.body.amount;
-    console.log(total,'totallllllllll');
     const crypto = require("crypto");
     let hmac = crypto.createHmac("sha256", process.env.RazorKey);
     hmac.update(

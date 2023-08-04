@@ -16,15 +16,15 @@ const {
   fgOtp,
   setPassword,
   changePassword,
-} = require("../Controllers/userController");
-const { dashboardView } = require("../Controllers/dashBoardController");
-const { checkBlocked } = require("../Controllers/adminController");
-const wishlistController = require("../Controllers/wishlistController");
-const cartController = require("../Controllers/cartController");
-const checkoutController = require("../Controllers/checkoutController");
-const auth = require("../middlewares/userAuth");
-const userController = require("../Controllers/userController");
-const couponController = require("../Controllers/couponController");
+} = require("../controllers/usercontroller");
+const { dashboardView } = require("../controllers/dashBoardcontroller");
+const { checkBlocked } = require("../controllers/admincontroller");
+const wishlistController = require("../controllers/wishlistcontroller");
+const cartController = require("../controllers/cartcontroller");
+const checkoutController = require("../controllers/checkoutcontroller");
+const auth = require("../middlewares/userauth");
+const userController = require("../controllers/usercontroller");
+const couponController = require("../controllers/couponcontroller");
 
 router.get("/register",auth.logout, registerView);
 router.get("/login",nocache(),userController.loginView);
@@ -75,8 +75,6 @@ router.get("/address",auth.verifyUser,userController.addressView);
 
 //checkout
 router.get("/checkout", auth.verifyUser, checkoutController.checkoutView);
-
-
 
 //post method for add address
 router.post("/addAddress",auth.verifyUser,userController.addAddress);

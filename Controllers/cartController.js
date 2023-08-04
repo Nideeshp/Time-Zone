@@ -4,6 +4,8 @@ const User = require("../models/user");
 const Cart = require("../models/cart");
 const { response } = require("express");
 
+//view cart
+
 const viewCart = async (req, res) => {
   try {
     if (req.session.user) {
@@ -65,6 +67,8 @@ const viewCart = async (req, res) => {
   }
 };
 
+
+//add cart
 const addtoCart = async (req, res) => {
   try {
     if (req.session.user) {
@@ -125,6 +129,8 @@ const addtoCart = async (req, res) => {
   }
 };
 
+
+//delete cart
 const deleteCart = async (req, res) => {
   try {
     const { id, qnty, productPrice, entirePrice } = req.body;
@@ -151,6 +157,9 @@ const deleteCart = async (req, res) => {
     res.json({ success: false });
   }
 };
+
+
+//change quantity
 const changeQnty = async (req, res) => {
   try {
     const { prodId, count, price, qnty } = req.body;

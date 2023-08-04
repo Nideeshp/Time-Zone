@@ -5,7 +5,7 @@ const Cart=require('../models/cart')
 const Coupon=require('../models/coupon')
 
 
-
+//load coupon
 const loadCoupon=async(req,res,next)=>{
     try {
         const coupons=await Coupon.find()
@@ -15,7 +15,7 @@ const loadCoupon=async(req,res,next)=>{
     }
 }
 
-
+//load add coupons
 const loadAddCoupons=async(req,res,next)=>{
     try {
         res.render('admin/addcoupon')
@@ -55,7 +55,7 @@ const insertCoupon=async (req,res,next)=>{
     }
 }
 
-
+//delete coupon
 const deleteCoupon=async(req,res,next)=>{
     try {
         const id=req.params.id
@@ -68,6 +68,7 @@ const deleteCoupon=async(req,res,next)=>{
 }
 
 
+//applycoupon
 const applyCoupon = async (req, res, next) => {
     try {
       const couponDetails = await Coupon.findOne({ code: req.body.code });

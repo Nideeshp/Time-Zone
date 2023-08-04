@@ -7,7 +7,11 @@ const nodemailer = require("nodemailer");
 const Order = require("../models/order");
 const Coupon = require("../models/coupon");
 
+
+
 module.exports = {
+
+  //register view
   registerView: (req, res, next) => {
     try {
       if (req.query.ref) {

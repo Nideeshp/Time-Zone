@@ -1,6 +1,8 @@
 const Banner = require("../models/banner");
 const Category = require("../models/category");
 
+
+//loadbanner
 const loadBanner = async (req, res, next) => {
   try {
     const add = await Banner.find({});
@@ -12,6 +14,8 @@ const loadBanner = async (req, res, next) => {
   }
 };
 
+
+//load ads
 const addAds = async (req, res, next) => {
   try {
     const categoryData = await Category.find({});
@@ -22,6 +26,8 @@ const addAds = async (req, res, next) => {
     next(error);
   }
 };
+
+//insert ads
 
 const insertAds = async (req, res, next) => {
   try {
@@ -45,6 +51,8 @@ const insertAds = async (req, res, next) => {
   }
 };
 
+
+//load edit banner
 const loadEditBanner = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -55,6 +63,8 @@ const loadEditBanner = async (req, res, next) => {
   }
 };
 
+
+//save edit banner
 const saveEditBanner = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -91,6 +101,8 @@ const saveEditBanner = async (req, res, next) => {
     next(error);
   }
 };
+
+//delete ads
 
 const deleteAdd = async (req, res, next) => {
   try {
