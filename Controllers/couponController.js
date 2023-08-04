@@ -1,8 +1,8 @@
-const Product = require('../models/Product');
-const Category=require('../models/Category');
-const User=require('../models/User')
-const Cart=require('../models/Cart')
-const Coupon=require('../models/Coupon')
+const Product = require('../models/product');
+const Category=require('../models/category');
+const User=require('../models/user')
+const Cart=require('../models/cart')
+const Coupon=require('../models/coupon')
 
 
 

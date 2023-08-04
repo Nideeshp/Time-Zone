@@ -1,5 +1,5 @@
 const mongoose=require('mongoose');
-const Product=require('./Product');
+const Product=require('./product');
 const UserSchema=new mongoose.Schema({
     name:{
         type:String,

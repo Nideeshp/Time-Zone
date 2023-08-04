@@ -1,8 +1,8 @@
-const User = require('../models/User');
+const User = require('../models/user');
 const bcrypt = require('bcryptjs');
-const Admin = require('../Models/Admin');
-const Category = require('../models/Category');
-const Product = require('../models/Product');
+const Admin = require('../models/admin');
+const Category = require('../models/category');
+const Product = require('../models/product');
 
 const fs=require('fs')
 const path=require('path')

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
-const Product = require('./Product')
+const Product = require('./product')
 
 const cartSchema = new mongoose.Schema({
     user: {

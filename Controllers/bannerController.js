@@ -1,5 +1,5 @@
-const Banner = require("../Models/Banner");
-const Category = require("../models/Category");
+const Banner = require("../models/banner");
+const Category = require("../models/category");
 
 const loadBanner = async (req, res, next) => {
   try {

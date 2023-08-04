@@ -15,15 +15,15 @@ const setNoCacheHeader = (req, res, next) => {
 // admin_route.use(bodyParser.urlencoded({extended:true}));
 
 admin_route.set('Views','./Views/admin')
-const adminController=require('../Controllers/adminController');
-const usermanageController=require('../Controllers/usermanageController')
-const categorymanageController=require('../Controllers/categorymanageController')
-const productController=require('../Controllers/productController');
-const checkoutController=require('../Controllers/checkoutController')
-const couponController=require('../Controllers/couponController')
-const bannerController=require('../Controllers/bannerController')
-const auth=require('../middlewares/adminAuth')
-const Admin = require('../Models/Admin');
+const adminController=require('../controllers/admincontroller');
+const usermanageController=require('../controllers/usermanagecontroller')
+const categorymanageController=require('../controllers/categorymanagecontroller')
+const productController=require('../controllers/productontroller');
+const checkoutController=require('../controllers/checkoutcontroller')
+const couponController=require('../controllers/couponcontroller')
+const bannerController=require('../controllers/bannercontroller')
+const auth=require('../middlewares/adminauth')
+const Admin = require('../models/admin');
 const nocache = require('nocache');
 
 

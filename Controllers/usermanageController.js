@@ -1,7 +1,7 @@
-const User=require('../models/User')
+const User=require('../models/user')
 const bcrypt=require('bcryptjs')
-const Admin=require('../Models/Admin');
-const Category = require('../models/Category');
+const Admin=require('../models/admin');
+const Category = require('../models/category');
 
 
 const loadUserMange=async(req,res)=>{

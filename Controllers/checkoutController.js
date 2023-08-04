@@ -1,9 +1,9 @@
-const Product = require("../models/Product");
-const Category = require("../models/Category");
-const User = require("../models/User");
-const Cart = require("../models/Cart");
-const Order = require("../Models/Order");
-const Coupon = require("../models/Coupon");
+const Product = require("../models/product");
+const Category = require("../models/category");
+const User = require("../models/user");
+const Cart = require("../models/cart");
+const Order = require("../models/order");
+const Coupon = require("../models/coupon");
 const Razorpay = require("razorpay");
 
 var instance = new Razorpay({

@@ -1,12 +1,11 @@
-const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const Admin = require("../Models/Admin");
-const Category = require("../models/Category");
-const Order = require("../Models/Order");
-const Product = require("../models/Product");
-const Coupon= require("../models/Coupon")
+const Admin = require("../models/admin");
+const Category = require("../models/category");
+const Order = require("../models/order");
+const Product = require("../models/product");
+const Coupon= require("../models/coupon")
 const moment= require('moment')
-
+const User= require('../models/user')
 
 const loadLogin = async (req, res) => {
   try {

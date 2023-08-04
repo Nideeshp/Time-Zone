@@ -1,11 +1,11 @@
-const User = require("../models/User");
-const Product = require("../models/Product");
-const Category = require("../models/Category");
-const Cart = require("../models/Cart");
+const User = require("../models/user");
+const Product = require("../models/product");
+const Category = require("../models/category");
+const Cart = require("../models/cart");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
-const Order = require("../Models/Order");
-const Coupon = require("../models/Coupon");
+const Order = require("../models/order");
+const Coupon = require("../models/coupon");
 
 module.exports = {
   registerView: (req, res, next) => {

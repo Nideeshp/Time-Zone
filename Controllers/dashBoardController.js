@@ -1,7 +1,7 @@
-const User = require("../models/User");
-const Product = require("../models/Product");
-const Banner = require("../Models/Banner");
-const Coupon = require("../models/Coupon");
+const User = require("../models/user");
+const Product = require("../models/product");
+const Banner = require("../models/banner");
+const Coupon = require("../models/coupon");
 
 module.exports = {
   dashboardView: async (req, res) => {
