@@ -18,7 +18,7 @@ admin_route.set('Views','./Views/admin')
 const adminController=require('../controllers/admincontroller');
 const usermanageController=require('../controllers/usermanagecontroller')
 const categorymanageController=require('../controllers/categorymanagecontroller')
-const productController=require('../controllers/productontroller');
+const productController=require('../controllers/productcontroller');
 const checkoutController=require('../controllers/checkoutcontroller')
 const couponController=require('../controllers/couponcontroller')
 const bannerController=require('../controllers/bannercontroller')

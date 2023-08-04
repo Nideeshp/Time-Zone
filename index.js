@@ -5,7 +5,7 @@ const dotenv = require("dotenv").config();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const adminRoute = require('./routes/adminRoute');
+const adminRoute = require('./routes/adminroute');
 const nocache = require('nocache')
 
 const app = express();
